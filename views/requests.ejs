@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Requests</title>
+</head>
+<body>
+  <div class="requests-container">
+      <ul>
+        <% Requests.forEach(function(Request){ %>
+
+          <li>
+            <div class="card">
+                <label for="name">Name: </label> <h5 id="name"><%=Request.name %></h5>
+                <label for="rollnum">Roll Number: </label> <h5 id="rollnum"><%=Request.rollno %></h5>
+                <label for="purpose">Purpose: </label> <h5 id="purpose"><%=Request.purposes%></h5>
+                <label for="year">Year: </label> <h5 id="year"><%=Request.year %></h5>
+                <label for="dept">Branch: </label> <h5 id="dept"><%=Request.department %></h5>
+                <button>Close Request</button>
+            </div>
+        </li>
+          
+        <% }); %>
+          
+          
+      </ul>
+  </div>
+</body>
+</html>

@@ -1,29 +1,48 @@
- prompt("hello");
+
 document.getElementById("submit").addEventListener("click",(e)=>{
     e.preventDefault();   
-    let rollno = document.getElementById('rollno').value;
-    let name = document.getElementById('name').value;
-    let phoneno = document.getElementById('phno').value;
-    let purpose = document.getElementById('purposemenu').value;
-    let year = document.getElementById('yearmenu').value;
-    let dept = document.getElementById('deptmenu').value;
+    let srollno = document.getElementById('rollno').value;
+    let sname = document.getElementById('name').value;
+    let sphoneno = document.getElementById('phno').value;
+    let spurpose = document.getElementById('purposemenu').value;
+    let syear = document.getElementById('yearmenu').value;
+    let sdept = document.getElementById('deptmenu').value;
 
-    rollno = rollno.toUpperCase();
-    let error = false;
-    if(rollno.length !=10  || !rollno.includes("SS") || !rollno.includes("A0")){
-        error=true;
+    srollno = srollno.toUpperCase();
+    console.log(srollno,sname,sphoneno,spurpose,syear,sdept);
+    let myerror = false;
+    if(srollno.length !=10  || !srollno.includes("SS") || !srollno.includes("A0")){
+        myerror=true;
     }
-    if(error){
+    if(myerror){
         document.getElementById("error").innerHTML="Enter correct roll number";
     }
     else{
-        console.log(rollno);
-        console.log(name);
-        console.log(phoneno);
-        console.log(purpose);
-        console.log(year);
-        console.log(dept);
-        document.getElementById("error").innerHTML="Successfully submitted";
+        fetch("/", {
+   
+            method: "POST",
+            
+            headers: {
+                
+                'Content-Type': 'application/json',
+                
+            },
+            body: JSON.stringify({
+                rollno:srollno,
+                name:sname,
+                phonenumber:sphoneno,
+                purpose:spurpose,
+                department:sdept,
+                year:syear
+            })
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data){
+            document.getElementById("error").innerHTML="Successfully submitted";
+        });
+
+
+        
     }    
 })
 
