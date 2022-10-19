@@ -36,12 +36,14 @@ document.getElementById("submit").addEventListener("click",(e)=>{
                 year:syear
             })
         }).then(function(response) {
+            console.log(response);
             return response.json();
         }).then(function(data){
-            document.getElementById("error").innerHTML="Successfully submitted";
-        });
+            console.log(data);
+        })
+        .catch(console.error);
 
-
+        document.getElementById("error").innerHTML="Successfully submitted";
         
     }    
 })

@@ -82,50 +82,79 @@ app.get("/",(req,res)=>{
   res.render("home");
 });
 
-app.post("/",(req,res)=>{
-  // var today = new Date();
-  // var dd = String(today.getDate()).padStart(2, '0');
-  // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-  // var yyyy = today.getFullYear();
 
-  // today = mm + '/' + dd + '/' + yyyy;
+
+app.post("/",(req,res)=>{
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + '/' + dd + '/' + yyyy;
   console.log(req.body);
   const studrollno=req.body.rollno;
   const studname=req.body.name;
   const studphonenumber=req.body.phonenumber;
   const studpurpose={
     purposename: req.body.purpose,
-    requestdate:12/03/2022,
+    requestdate:today,
     isissued:0
   }
   const studdepartment=req.body.department;
   const studyear=req.body.year;
-  // Open.findOne({rollno:studrollno},(err,stud)=>{
-  //   if(err){
-  //     console.log(err);
-  //   }
-  //   else if(!stud){
+  Open.findOne({rollno:studrollno},(err,stud)=>{
+    var msg="";
+    if(err){
+      console.log(err);
+    }
+    else if(!stud){
 
-  //     const studentInfo={
-  //       rollno:studrollno,
-  //       name:studname,
-  //       phonenumber:studphonenumber,
-  //       purposes:[studpurpose],
-  //       department:studdepartment,
-  //       year:studyear
+      const studentInfo={
+        rollno:studrollno,
+        name:studname,
+        phonenumber:studphonenumber,
+        purposes:[studpurpose],
+        department:studdepartment,
+        year:studyear
 
-  //     }
-  //     const student = new Open(studentInfo);
-  //     student.save(function (err) {
-  //       if (err) return handleError(err);
-  //       else console.log("Student saved ");
+      }
+      const student = new Open(studentInfo);
+      student.save(function (err) {
+        if (err) return handleError(err);
+        else console.log("Student saved ");
        
-  //     });
-  //   }
-  //   else{
-     
-  //   }
-  // })
+      });
+      msg="Successfully saved";
+    }
+    else{
+
+      const mypurposes=stud.purposes;
+      var canpush=true;
+      mypurposes.forEach(purpose => {
+        if(purpose.purposename===req.body.purpose){
+          console.log("You have already made the request for this");
+          msg+="You have already made the request for this"
+          if(purpose.isissued==1){
+            console.log("Also since it is issued.You have to pay the fine if you want it again");
+            msg+="Also since it is issued.You have to pay the fine if you want it again";
+          }
+          canpush=false;
+        }
+      });
+      if(canpush){
+        stud.purposes.push(studpurpose);
+        stud.save((err)=>{
+          if(err) console.log(err);
+          else console.log("successfully updated");
+        })
+        msg="successfully updated";
+      }
+
+    }
+    console.log(msg);
+    res.send({message:msg});
+  })
+
       
 });
 
@@ -168,7 +197,41 @@ app.get("/admin/requests",(req,res)=>{
     }
 
   })
-})
+});
+
+app.post("/admin/request/issued",(req,res)=>{
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + '/' + dd + '/' + yyyy;
+  const value=req.body.submitbutton;
+  const myrollno=value.substring(0, value.indexOf(' ')); 
+  const mypurpose=value.substring(value.indexOf(' ') + 1); 
+  console.log(myrollno);
+  console.log(mypurpose);
+  Open.findOne({rollno:myrollno},(err,stud)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      stud.purposes.forEach((purpose)=>{
+        if(purpose.purposename===mypurpose){
+          purpose.issueddate=today;
+          purpose.isissued=1;
+          console.log("may be");
+        }
+      });
+      stud.save((err)=>{
+        if(err) console.log(err);
+        else console.log("successfully issued");
+      })
+      res.redirect(req.get('referer'));
+    }
+  })
+
+});
 
 app.listen(PORT,()=>{
   console.log("listening at "+ PORT);

@@ -15,13 +15,21 @@
             <div class="card">
                 <label for="name">Name: </label> <h5 id="name"><%=Request.name %></h5>
                 <label for="rollnum">Roll Number: </label> <h5 id="rollnum"><%=Request.rollno %></h5>
-                <label for="purpose">Purpose: </label> <h5 id="purpose"><%=Request.purposes%></h5>
                 <label for="year">Year: </label> <h5 id="year"><%=Request.year %></h5>
                 <label for="dept">Branch: </label> <h5 id="dept"><%=Request.department %></h5>
-                <button>Close Request</button>
+                <label for="purpose">Purposes: </label>
+                <%Request.purposes.forEach((purpose)=>{%>
+                 <h5 id="purpose"><%=purpose.purposename %></h5>
+                 <h5 id="purpose"><%=purpose.requestdate %></h5>
+                 <h5 id="purpose"><%=purpose.issueddate %></h5>
+                 <h5 id="purpose"><%=purpose.isissued %></h5>
+                 <form action="/admin/request/issued" method="post">
+                  <button type="submit" name="submitbutton" value="<%=Request.rollno%> <%=purpose.purposename%>">Close Request & Mark as issued</button>
+                 </form>
+                <% }); %>
+                
             </div>
         </li>
-          
         <% }); %>
           
           
