@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  
+</head>
+<body>
+    <h2 id="error"></h2>
+    <form method="post" id = "form" >
+        <label for="rollno">Roll Number of Student : </label><br>
+        <input type="text" id="rollno" name="rollno"><br>
+        <label for="name">Name of the Student :</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="phno">Phone Number of Student (10 Digits only):</label><br>
+        <input type="tel" id="phno" name="phno"><br>
+        <label id = "purpose"> Purpose </label><br>
+        <select id ="purposemenu">  
+        <option value = "def"> Select the Options Below </option> 
+        <option value = "Bus Pass"> Bus Pass </option>  
+        <option value = "Bank Account"> Bank Account </option>  
+        <option value = "Passport"> Passport </option>  
+        <option value = "Scholarship"> Scholarship </option> 
+        <option value = "Cast of Income"> Cast of Income </option>  
+        <option value = "Internship"> Internship </option> 
+        </select><br>
+        <label id = "year"> Year </label><br> 
+        <select id = "yearmenu">  
+        <option value = "def"> Select the Options Below </option>
+        <option value = "Ist Year"> Ist Year </option>  
+        <option value = "IInd Year"> IInd Year </option>  
+        <option value = "IIIrd Year"> IIIrd Year </option>  
+        <option value = "IVth Year"> IVth Year </option>  
+        </select><br>
+        <label id = "dept"> Department  </label><br>  
+        <select id = "deptmenu">  
+        <option value = "def"> Select the Options Below </option>
+        <option value = "CSE"> Computer Science and Engineering (CSE) </option>  
+        <option value = "ECE"> Electronics and Communication Engineering (ECE) </option>  
+        <option value = "ME"> Mechanical Engineering (ME) </option>  
+        <option value = "CE"> Civil Engineering (CE) </option>  
+        </select><br>
+        <input type = "submit" value="submit" id = "submit"><br>
+      </form>
+      <script src="../public/javascript/script.js"></script>
+      
+</body>
+</html>
