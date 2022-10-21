@@ -322,9 +322,15 @@ app.get("/admin/requests/:typeofreq",(req,res)=>{
 
       }
       else{
+        type=1;
         for(var i=0;i<openreqs.length;++i){
-          type=1;
-          count.push(1);
+          var c=0;
+          for(var j=0;j<openreqs[i].purposes.length;++j){
+            if(openreqs[i].purposes[j].isissued===1){
+              c++;
+            }
+          }
+          count.push(c);
         }
 
       } 
