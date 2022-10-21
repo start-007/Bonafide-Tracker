@@ -1,4 +1,5 @@
 
+require('dotenv').config()
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
@@ -42,16 +43,17 @@ app.use(cors());
 
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
 
-mongoose.connect("mongodb://localhost:27017/bonafideDB",{useNewUrlParser:true});
+// mongoose.connect("mongodb://localhost:27017/bonafideDB",{useNewUrlParser:true});
+const URI=process.env.ATLAS_URI
+const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  console.log(err);
+});
 
-
-// const uri = "mongodb+srv://starteja007:Teja%401218118@bonafidecertificatetrac.lpemrqs.mongodb.net/?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   console.log(err);
-//   client.close();
-// });
+mongoose.connect(URI,(err)=>{
+  console.log(err);
+});
 
 
 const openedSchema=new mongoose.Schema({
