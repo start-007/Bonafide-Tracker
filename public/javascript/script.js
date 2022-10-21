@@ -39,11 +39,12 @@ document.getElementById("submit").addEventListener("click",(e)=>{
             console.log(response);
             return response.json();
         }).then(function(data){
+            document.getElementById("error").innerHTML=data.message;
             console.log(data);
         })
-        .catch(console.error);
+        .catch(console.log(console.error));
 
-        document.getElementById("error").innerHTML="Successfully submitted";
+        
         
     }    
 })

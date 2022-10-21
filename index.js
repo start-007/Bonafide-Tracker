@@ -136,7 +136,7 @@ app.post("/",(req,res)=>{
           msg+="You have already made the request for this"
           if(purpose.isissued==1){
             console.log("Also since it is issued.You have to pay the fine if you want it again");
-            msg+="Also since it is issued.You have to pay the fine if you want it again";
+            msg+="Also since it is issued.You have to pay the fine,if you want it again";
           }
           canpush=false;
         }
