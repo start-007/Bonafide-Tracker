@@ -175,7 +175,7 @@ app.post("/admin",(req,res)=>{
     else{
       console.log(admin.password);
       if(admin.password===req.body.password){
-        res.redirect("/admin/requests");
+        res.redirect("/admin/requests/opened");
       }
       else{
         res.render("adminpage",{Message:"Entered password is incorrect"});
@@ -186,14 +186,26 @@ app.post("/admin",(req,res)=>{
 });
 
 
-app.get("/admin/requests",(req,res)=>{
+app.get("/admin/requests/:typeofreq",(req,res)=>{
   Open.find({},(err,openreqs)=>{
 
     if(err){
       console.log();
     }
     else{
-      res.render("requests",{Requests:openreqs});
+      const type=(req.params.typeofreq==="opened")?0:1;
+      var count=[];
+      for(var i=0;i<openreqs.length;++i){
+        var c=0;
+        for(var j=0;j<openreqs[i].purposes.length;++j){
+          if(openreqs[i].purposes[j].isissued===0){
+            c++;
+          }
+        }
+        count.push(c);
+      }
+      console.log(count);
+      res.render("requests",{Requests:openreqs,Value:type,CountArr:count});
     }
 
   })
