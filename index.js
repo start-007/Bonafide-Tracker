@@ -11,6 +11,7 @@ const findOrCreate=require("mongoose-findorcreate");
 const path=require("path");
 const cors=require("cors");
 
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const PORT=process.env.PORT || 3000; 
 
@@ -42,6 +43,15 @@ app.use(cors());
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
 
 mongoose.connect("mongodb://localhost:27017/bonafideDB",{useNewUrlParser:true});
+// const uri = "mongodb+srv://starteja007:Teja%401218118@bonafidecertificatetrac.lpemrqs.mongodb.net/?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   console.log(err);
+//   client.close();
+// });
+
 
 const openedSchema=new mongoose.Schema({
   rollno:"String",
@@ -58,13 +68,31 @@ const openedSchema=new mongoose.Schema({
   department:"String",
   year:"String"
 });
+const fineSchema=new mongoose.Schema({
+  rollno:"String",
+  name:"String",
+  phonenumber:"String",
+  purposes:[
+    {
+      purposename:"String",
+      requestdate:"Date",
+      issueddate:"Date",
+      isissued:"Number",
+      fine:"Number",
+      paid:"Number"
+    }
+  ],
+  
+  department:"String",
+  year:"String"
+});
 
 const adminSchema=new mongoose.Schema({
   username:"String",
   password:"String"
 })
 // adminSchema.plugin(passportLocalMongoose);
-
+const Fine=new mongoose.model("Fine",fineSchema);
 const Open=new mongoose.model("Open",openedSchema);
 const Admin=new mongoose.model("Admin",adminSchema);
 
@@ -98,26 +126,27 @@ app.post("/",(req,res)=>{
   const studpurpose={
     purposename: req.body.purpose,
     requestdate:today,
-    isissued:0
+    isissued:0,
+
   }
   const studdepartment=req.body.department;
   const studyear=req.body.year;
   Open.findOne({rollno:studrollno},(err,stud)=>{
+    const studentInfo={
+      rollno:studrollno,
+      name:studname,
+      phonenumber:studphonenumber,
+      purposes:[studpurpose],
+      department:studdepartment,
+      year:studyear
+
+    }
     var msg="";
     if(err){
       console.log(err);
     }
     else if(!stud){
 
-      const studentInfo={
-        rollno:studrollno,
-        name:studname,
-        phonenumber:studphonenumber,
-        purposes:[studpurpose],
-        department:studdepartment,
-        year:studyear
-
-      }
       const student = new Open(studentInfo);
       student.save(function (err) {
         if (err) return handleError(err);
@@ -137,6 +166,8 @@ app.post("/",(req,res)=>{
           if(purpose.isissued==1){
             console.log("Also since it is issued.You have to pay the fine if you want it again");
             msg+="Also since it is issued.You have to pay the fine,if you want it again";
+            
+            //msg="Successfully saved Make sure you pay the fine to collect the bonafide";
           }
           canpush=false;
         }
@@ -157,6 +188,86 @@ app.post("/",(req,res)=>{
 
       
 });
+
+app.post("/fine",(req,res)=>{
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + '/' + dd + '/' + yyyy;
+  console.log(req.body);
+  const studrollno=req.body.rollno;
+  const studname=req.body.name;
+  const studphonenumber=req.body.phonenumber;
+  const studpurpose={
+    purposename: req.body.purpose,
+    requestdate:today,
+    isissued:0,
+    fine:1000,
+    paid:0
+  }
+  const studdepartment=req.body.department;
+  const studyear=req.body.year;
+
+  Fine.findOne({rollno:studrollno},(err,stud)=>{
+    const studentInfo={
+      rollno:studrollno,
+      name:studname,
+      phonenumber:studphonenumber,
+      purposes:[studpurpose],
+      department:studdepartment,
+      year:studyear,
+      
+
+    }
+    var msg="";
+    var canpush=true;
+    if(err){
+      console.log(err);
+    }
+    else if(!stud){
+      const student = new Fine(studentInfo);
+      student.save(function (err) {
+        if (err) return handleError(err);
+        else console.log("Student saved ");
+       
+      });
+      console.log("succesfully saved in fine");
+      msg="Successfully saved & make sure you pay the fine";
+    }
+    else{
+
+      const mypurposes=stud.purposes;
+      var canpush=true;
+      mypurposes.forEach(purpose => {
+        if(purpose.purposename===req.body.purpose){
+          console.log("You have already made the request for this");
+          msg+="You have already made the request for this"
+          if(purpose.isissued==1){
+            console.log("Also since it is issued.You have to pay the fine if you want it again");
+            msg+="Also since it is issued.You have to pay the fine,if you want it again";
+            //msg="Successfully saved Make sure you pay the fine to collect the bonafide";
+          }
+          canpush=false;
+        }
+      });
+      if(canpush){
+        stud.purposes.push(studpurpose);
+        stud.save((err)=>{
+          if(err) console.log(err);
+          else console.log("successfully updated");
+        })
+        msg="successfully updated";
+      }
+
+    }
+    console.log(msg);
+    res.send({message:msg});
+  })
+
+})
+
 
 app.get("/admin",(req,res)=>{
   res.render("adminpage",{Message:"Enter the details"});
@@ -193,17 +304,28 @@ app.get("/admin/requests/:typeofreq",(req,res)=>{
       console.log();
     }
     else{
-      const type=(req.params.typeofreq==="opened")?0:1;
+      var type=0;
       var count=[];
-      for(var i=0;i<openreqs.length;++i){
-        var c=0;
-        for(var j=0;j<openreqs[i].purposes.length;++j){
-          if(openreqs[i].purposes[j].isissued===0){
-            c++;
+      if(req.params.typeofreq==="opened"){
+        
+        for(var i=0;i<openreqs.length;++i){
+          var c=0;
+          for(var j=0;j<openreqs[i].purposes.length;++j){
+            if(openreqs[i].purposes[j].isissued===0){
+              c++;
+            }
           }
+          count.push(c);
         }
-        count.push(c);
+
       }
+      else{
+        for(var i=0;i<openreqs.length;++i){
+          type=1;
+          count.push(1);
+        }
+
+      } 
       console.log(count);
       res.render("requests",{Requests:openreqs,Value:type,CountArr:count});
     }
