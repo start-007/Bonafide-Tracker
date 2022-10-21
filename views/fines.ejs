@@ -37,6 +37,8 @@
                     <label for="name">Purpose Category: <h5 id="purpose"><%=purpose.purposename %></h5>
                       <label for="name">Request date: <h5 id="purpose"><%=purpose.requestdate %></h5>
                       <label for="name">Issued Date: <h5 id="purpose"><%=purpose.issueddate?purpose.issueddate:"Not yet issued" %></h5>
+                      <label for="name">Fine Amount:<h5 id="purpose"><%=purpose.fine %></h5>
+                      <label for="name">Status<h5 id="purpose"><%= purpose.paid?"paid":"Not Paid" %></h5>
                       <label for="name">Issued:<h5 id="purpose"><%=purpose.isissued %></h5>
                       <% if(Value===0){ %>
 

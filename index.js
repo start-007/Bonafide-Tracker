@@ -43,11 +43,12 @@ app.use(cors());
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
 
 mongoose.connect("mongodb://localhost:27017/bonafideDB",{useNewUrlParser:true});
+
+
 // const uri = "mongodb+srv://starteja007:Teja%401218118@bonafidecertificatetrac.lpemrqs.mongodb.net/?retryWrites=true&w=majority";
 // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 // client.connect(err => {
 //   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
 //   console.log(err);
 //   client.close();
 // });
@@ -295,7 +296,6 @@ app.post("/admin",(req,res)=>{
 
   })
 });
-
 
 app.get("/admin/requests/:typeofreq",(req,res)=>{
   Open.find({},(err,openreqs)=>{
