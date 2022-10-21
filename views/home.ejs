@@ -5,18 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-  
+    
+    <link rel="stylesheet" href="css/homestyle.css">
 </head>
 <body>
-    <h2 id="error">Fill the details</h2>
+    <div class="top-container">
+        <div class="inner-container">
+            <h1 class="inner-heading">JNTUH University College of Engineering Sultanpur</h1>
+            <h5 class="inner-para">Sultanpur(V), Pulkal(M), Sangareddy(D),Telangana-502273 ,India</h5>
+        </div>
+    </div>
+    <h2 class="bonafide-title">Bonafide Tracking System</h2>
+    <h2 id="error"></h2>
+  <div class="card">
+    <div class="card-container">
+        <h2 id="error" class="card-heading">Fill the details</h2>
     <form method="post" id = "form" >
-        <label for="rollno">Roll Number of Student : </label><br>
+        <div class="card-items">
+        <label for="rollno">Roll Number of Student : </label>
         <input type="text" id="rollno" name="rollno"><br>
-        <label for="name">Name of the Student :</label><br>
+      </div>
+        <div class="card-items">
+        <label for="name">Name of the Student :</label>
         <input type="text" id="name" name="name"><br>
-        <label for="phno">Phone Number of Student (10 Digits only):</label><br>
+        </div>
+          <div class="card-items">
+        <label for="phno">Phone Number of Student (10 Digits only):</label>
         <input type="tel" id="phno" name="phno"><br>
-        <label id = "purpose"> Purpose </label><br>
+        </div>
+            <div class="card-items">
+        <label id = "purpose"> Purpose of Bonafide : </label>
         <select id ="purposemenu">  
         <option value = "def"> Select the Options Below </option> 
         <option value = "Bus Pass"> Bus Pass </option>  
@@ -26,7 +44,9 @@
         <option value = "Cast of Income"> Cast of Income </option>  
         <option value = "Internship"> Internship </option> 
         </select><br>
-        <label id = "year"> Year </label><br> 
+        </div>
+              <div class="card-items">
+        <label id = "year"> Year : </label>
         <select id = "yearmenu">  
         <option value = "def"> Select the Options Below </option>
         <option value = "Ist Year"> Ist Year </option>  
@@ -34,7 +54,9 @@
         <option value = "IIIrd Year"> IIIrd Year </option>  
         <option value = "IVth Year"> IVth Year </option>  
         </select><br>
-        <label id = "dept"> Department  </label><br>  
+        </div>
+        <div class="card-items">
+        <label id = "dept"> Department : </label>  
         <select id = "deptmenu">  
         <option value = "def"> Select the Options Below </option>
         <option value = "CSE"> Computer Science and Engineering (CSE) </option>  
@@ -42,9 +64,13 @@
         <option value = "ME"> Mechanical Engineering (ME) </option>  
         <option value = "CE"> Civil Engineering (CE) </option>  
         </select><br>
-        <input type = "submit" value="submit" id = "submit"><br>
-      </form>
-      <script src="javascript/script.js"></script>
-      
+        </div>
+      <div class="submitbtncontainer">
+        <input class="submitbtn" type = "submit" value="Submit" id = "submit"><br>
+      </div>
+        </form>
+      </div>
+  </div>
+  <script src="javascript/script.js"></script>
 </body>
 </html>

@@ -4,14 +4,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
   <title>Requests</title>
 </head>
 <body>
   <form action="/admin/requests/closed" method="get">
-    <button type="submit" value="Closed">Closed Requests</button>
+    <button type="submit" value="Closed" id="closedreqbtn">Closed Requests</button>
   </form>
   <form action="/admin/requests/opened" method="get">
-    <button type="submit" value="Closed">Opened Requests</button>
+    <button type="submit" value="Closed" id="openedreqbtn">Opened Requests</button>
   </form>
   <h1><%= Value?"Closed Requests":"Opened Requests"%></h1>
   <div class="requests-container">

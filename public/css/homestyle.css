@@ -1,0 +1,64 @@
+.top-container {
+    background-color: lightblue;
+    height:30%;
+    padding:20px;
+    padding-top:0px;
+    margin-top:0px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.inner-container {
+    padding: 10px;
+}
+
+.inner-heading {
+    color:navy;
+    font-size:40px;
+    font-family: 'Open Sans' , sans-serif ; 
+}
+
+.inner-para {
+    color: red;
+    font-size:20px;
+    font-family: 'Open Sans' , sans-serif ; 
+}
+.bonafide-title {
+    color: black;
+    font-size:35px;
+    font-family: 'Open Sans' , sans-serif ; 
+  text-align:center;
+}
+.card {
+  display:flex;
+  justify-content:center;
+  
+}
+.card-container {
+  text-align:left;
+  background-color:#edf4f5;
+  width:40%;
+  border-radius:25px;
+  padding:25px;
+}
+.card-items {
+  padding:20px;
+  padding-bottom:4px;
+  margin-bottom:5px;
+}
+.submitbtncontainer{
+    display:flex;
+   justify-content:center;
+}
+.submitbtn {
+    background-color: #4CAF50; /* Green */
+  border:1px white;  
+  border-radius: 18px;
+   color : white;
+    padding: 15px 32px;
+    margin-top:12px;
+    text-align: center;
+  
+    text-decoration: none;
+    font-size: 16px;
+  }
