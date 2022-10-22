@@ -18,56 +18,34 @@
     <h2 id="error" class="bonafide-title">Bonafide Tracking System</h2>
 
   <div class="card">
-    <div class="card-container">
+      <div class="card-container">
         <h2 class="card-heading">Fill the details</h2>
-    <form method="post" id = "form" action="/">
-        <div class="card-items">
-        <label for="rollno">Roll Number of Student : </label>
-        <input type="text" id="rollno" name="rollno"><br>
-      </div>
-        <div class="card-items">
-        <label for="name">Name of the Student :</label>
-        <input type="text" id="name" name="name"><br>
-        </div>
+        <form method="post" id = "form" action="/">
           <div class="card-items">
-        <label for="phno">Phone Number of Student (10 Digits only):</label>
-        <input type="tel" id="phno" name="phno"><br>
-        </div>
-            <div class="card-items">
-        <label id = "purpose"> Purpose of Bonafide : </label>
-        <select id ="purposemenu">  
-        <option value = "def"> Select the Options Below </option> 
-        <option value = "Bus Pass"> Bus Pass </option>  
-        <option value = "Bank Account"> Bank Account </option>  
-        <option value = "Passport"> Passport </option>  
-        <option value = "Scholarship"> Scholarship </option> 
-        <option value = "Cast of Income"> Cast of Income </option>  
-        <option value = "Internship"> Internship </option> 
-        </select><br>
-        </div>
-              <div class="card-items">
-        <label id = "year"> Year : </label>
-        <select id = "yearmenu">  
-        <option value = "def"> Select the Options Below </option>
-        <option value = "Ist Year"> Ist Year </option>  
-        <option value = "IInd Year"> IInd Year </option>  
-        <option value = "IIIrd Year"> IIIrd Year </option>  
-        <option value = "IVth Year"> IVth Year </option>  
-        </select><br>
-        </div>
-        <div class="card-items">
-        <label id = "dept"> Department : </label>  
-        <select id = "deptmenu">  
-        <option value = "def"> Select the Options Below </option>
-        <option value = "CSE"> Computer Science and Engineering (CSE) </option>  
-        <option value = "ECE"> Electronics and Communication Engineering (ECE) </option>  
-        <option value = "ME"> Mechanical Engineering (ME) </option>  
-        <option value = "CE"> Civil Engineering (CE) </option>  
-        </select><br>
-        </div>
-      <div class="submitbtncontainer">
-        <input class="submitbtn" type = "submit" value="Submit" id = "submit"><br>
-      </div>
+            <label for="rollno">Roll Number of Student : </label>
+            <input type="text" id="rollno" name="rollno"><br>
+          </div>
+          <div class="card-items">
+            <label id = "purpose"> Purpose of Bonafide : </label>
+
+            <select id ="purposemenu">  
+              <option value = "def"> Select the Options Below </option> 
+              <option value = "Bus Pass"> Bus Pass </option>  
+              <option value = "Bank Account"> Bank Account </option>  
+              <option value = "Passport"> Passport </option>  
+              <option value = "Scholarship"> Scholarship </option> 
+              <option value = "Cast of Income"> Cast of Income </option>  
+              <option value = "Internship"> Internship </option> 
+            </select>
+            <br>
+          </div>
+          <div class="submitbtncontainer">
+            <input class="submitbtn" type = "submit" value="Submit" id = "submit"><br>
+          </div>
+          <form action="/fine" method="post">
+              <input type = "submit" value="proceed" id = "proceed" disabled>
+              <br>
+          </form>
         </form>
       </div>
   </div>

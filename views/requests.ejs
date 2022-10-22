@@ -10,28 +10,23 @@
   <form action="/admin/requests/closed" method="get">
     <button type="submit" value="Closed">Closed Requests</button>
   </form>
-  <form action="/admin/requests/opened" method="get">
-    <button type="submit" value="Closed">Opened Requests</button>
-  </form>
   <form action="/admin/requests/fined" method="get">
     <button type="submit" value="Closed">Fined Requests</button>
   </form>
 
-  <h1><%= Value?"Closed Requests":"Opened Requests"%></h1>
-
-
+  <h1><%= Value?"Closed Requests":"Fined Requests"%></h1>
+  <h2><%= Message %></h2>
   <div class="requests-container">
-    <ul style=" list-style-type: none;">
+    <ul >
       <% for(var l = Requests.length, i = 0; i < l; i++) { %>
         <li>
-          <% if(CountArr[i]){ %>
-            <label for="name">Name: </label> <h5 id="name"><%=Requests[i].name %></h5>
+            
             <label for="rollnum">Roll Number: </label> <h5 id="rollnum"><%=Requests[i].rollno %></h5>
+            <!-- <label for="name">Name: </label> <h5 id="name"><%=Requests[i].name %></h5>
             <label for="year">Year: </label> <h5 id="year"><%=Requests[i].year %></h5>
-            <label for="dept">Branch: </label> <h5 id="dept"><%=Requests[i].department %></h5>
+            <label for="dept">Branch: </label> <h5 id="dept"><%=Requests[i].department %></h5> -->
             <label for="purpose">Purposes: </label>   
-          <% } %>
-        
+          <% if(Value===1){ %>
           <%Requests[i].purposes.forEach((purpose)=>{%>
             <% if (purpose.isissued===Value) { %>
               
@@ -39,17 +34,23 @@
               <label for="name">Request date: <h5 id="purpose"><%=purpose.requestdate %></h5>
               <label for="name">Issued Date: <h5 id="purpose"><%=purpose.issueddate?purpose.issueddate:"Not yet issued" %></h5>
               <label for="name">Issued:<h5 id="purpose"><%=purpose.isissued %></h5>
-              <% if(Value===0){ %>
-
-                <form action="/admin/request/issued" method="post">
-                  <button type="submit" name="submitbutton" value="<%=Requests[i].rollno%> <%=purpose.purposename%>">Close Request & Mark as issued</button>
-                </form>
-
-                <% } %>
-                
+              
             <% } %>
             
-          <% }); %>  
+          <% }); %> 
+          <% } else { %>
+            <label for="name">Purpose Category: <h5 id="purpose"><%=Requests[i].purpose.purposename %></h5>
+            <label for="name">Request date: <h5 id="purpose"><%=Requests[i].purpose.requestdate %></h5>
+            <label for="name">Issued Date: <h5 id="purpose"><%=Requests[i].purpose.issueddate?purpose.issueddate:"Not yet issued" %></h5>
+            <label for="name">Issued:<h5 id="purpose"><%=Requests[i].purpose.isissued %></h5>
+            <label for="name">Ispaid:<h5 id="purpose"><%=Requests[i].purpose.paid %></h5>
+            <label for="name">Amount:<h5 id="purpose"><%=Requests[i].purpose.fine %></h5>
+
+              <form action="/admin/request/issued" method="post">
+                <button type="submit" name="submitbutton" value="<%=Requests[i].rollno%> <%=Requests[i].purpose.purposename%>">Mark as paid & Issue Certificate</button>
+              </form>
+          <% } %>
+          
         </li>
       
       <% } %>
@@ -58,3 +59,5 @@
   </div>
 </body>
 </html>
+<!-- 
+ -->

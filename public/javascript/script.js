@@ -2,14 +2,9 @@
 document.getElementById("submit").addEventListener("click",(e)=>{
     e.preventDefault();   
     let srollno = document.getElementById('rollno').value;
-    let sname = document.getElementById('name').value;
-    let sphoneno = document.getElementById('phno').value;
     let spurpose = document.getElementById('purposemenu').value;
-    let syear = document.getElementById('yearmenu').value;
-    let sdept = document.getElementById('deptmenu').value;
-
     srollno = srollno.toUpperCase();
-    console.log(srollno,sname,sphoneno,spurpose,syear,sdept);
+    console.log(srollno,spurpose);
     let myerror = false;
     if(srollno.length !=10  || !srollno.includes("SS") || !srollno.includes("A0")){
         myerror=true;
@@ -29,16 +24,18 @@ document.getElementById("submit").addEventListener("click",(e)=>{
             },
             body: JSON.stringify({
                 rollno:srollno,
-                name:sname,
-                phonenumber:sphoneno,
                 purpose:spurpose,
-                department:sdept,
-                year:syear
             })
         }).then(function(response) {
             console.log(response);
             return response.json();
         }).then(function(data){
+            if(data.fine){
+                document.getElementById("proceed").disabled=false;
+            }
+            else{
+                document.getElementById("proceed").disabled=true;
+            }
             document.getElementById("error").innerHTML=data.message;
             console.log(data);
         })
@@ -52,13 +49,10 @@ document.getElementById("submit").addEventListener("click",(e)=>{
 document.getElementById("proceed").addEventListener("click",(e)=>{
     e.preventDefault();   
     let srollno = document.getElementById('rollno').value;
-    let sname = document.getElementById('name').value;
-    let sphoneno = document.getElementById('phno').value;
     let spurpose = document.getElementById('purposemenu').value;
-    let syear = document.getElementById('yearmenu').value;
-    let sdept = document.getElementById('deptmenu').value;
+    
     srollno = srollno.toUpperCase();
-    console.log(srollno,sname,sphoneno,spurpose,syear,sdept);
+    console.log(srollno,spurpose);
     let myerror = false;
     if(srollno.length !=10  || !srollno.includes("SS") || !srollno.includes("A0")){
         myerror=true;
@@ -77,17 +71,20 @@ document.getElementById("proceed").addEventListener("click",(e)=>{
                 
             },
             body: JSON.stringify({
-                rollno:srollno,
-                name:sname,
-                phonenumber:sphoneno,
+                rollno:srollno,     
                 purpose:spurpose,
-                department:sdept,
-                year:syear
+                
             })
         }).then(function(response) {
             console.log(response);
             return response.json();
         }).then(function(data){
+            if(data.fine){
+                document.getElementById("proceed").disabled=false;
+            }
+            else{
+                document.getElementById("proceed").disabled=true;
+            }
             document.getElementById("error").innerHTML=data.message;
             console.log(data);
         })
