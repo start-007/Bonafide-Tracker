@@ -14,13 +14,9 @@ document.getElementById("submit").addEventListener("click",(e)=>{
     }
     else{
         fetch("/", {
-   
             method: "POST",
-            
-            headers: {
-                
-                'Content-Type': 'application/json',
-                
+            headers: {   
+                'Content-Type': 'application/json',   
             },
             body: JSON.stringify({
                 rollno:srollno,
@@ -30,25 +26,31 @@ document.getElementById("submit").addEventListener("click",(e)=>{
             console.log(response);
             return response.json();
         }).then(function(data){
+            let popup=document.getElementById("popup");
+            popup.classList.add("open-popup");
+            document.getElementById("error").innerHTML=data.message;
+            var myList = document.getElementById('studentid');
+            myList.innerHTML = '';
             if(data.fine===1){
-                document.getElementById("proceed").disabled=false;
-                document.getElementById("studentid").innerHTML=JSON.stringify("");
+                document.getElementById("proceed").action="/fine"
                 console.log("set to zero");
             }
             else{
-                document.getElementById("proceed").disabled=true;
-                
-                document.getElementById("rollnum").innerHTML=data.studentinformation.rollno;
-                document.getElementById("name").innerHTML=data.studentinformation.name;
-                document.getElementById("Dept").innerHTML=data.studentinformation.department;
-                document.getElementById("year").innerHTML=data.studentinformation.rollno;
-                document.getElementById("mypurpose").innerHTML=data.studentinformation.year;
-                document.getElementById("sodo").innerHTML=data.studentinformation.sonordaughterof;
+                data.studentinformation=(JSON.parse(JSON.stringify(data.studentinformation)));
+                console.log(data.studentinformation);
+                document.getElementById("proceed").action="/save";
+                var listView=document.getElementById("studentid");
+                for (var key of Object.keys(data.studentinformation)) {
+                    console.log(key + " -> " + data.studentinformation[key])
+                    var listViewItem=document.createElement('li');
+                    listViewItem.appendChild(document.createTextNode(key+" : "+data.studentinformation[key]));
+                   
+                    listView.appendChild(listViewItem);
+                }
                 console.log("ok");
             }
+        
             
-            document.getElementById("error").innerHTML=data.message;
-            console.log(data);
         })
         .catch(console.log(console.error));
 
@@ -57,11 +59,11 @@ document.getElementById("submit").addEventListener("click",(e)=>{
     }    
 })
 
-document.getElementById("proceed").addEventListener("click",(e)=>{
+document.getElementById("submitbtn").addEventListener("click",(e)=>{
+    console.log("clicked proceed button");
     e.preventDefault();   
     let srollno = document.getElementById('rollno').value;
     let spurpose = document.getElementById('purposemenu').value;
-    
     srollno = srollno.toUpperCase();
     console.log(srollno,spurpose);
     let myerror = false;
@@ -72,7 +74,8 @@ document.getElementById("proceed").addEventListener("click",(e)=>{
         document.getElementById("error").innerHTML="Enter correct roll number";
     }
     else{
-        fetch("/fine", {
+        const route=document.getElementById("proceed").action;
+        fetch(route, {
    
             method: "POST",
             
@@ -90,28 +93,25 @@ document.getElementById("proceed").addEventListener("click",(e)=>{
             console.log(response);
             return response.json();
         }).then(function(data){
+            console.log(data);
+            var myList = document.getElementById('studentid');
+            myList.innerHTML = '';
             if(data.fine){
-                document.getElementById("proceed").disabled=false;
-                document.getElementById("studentid").innerHTML=JSON.stringify("");           
+                document.getElementById("studentid").innerHTML="";           
             }
             else{
-            //     name:stud.name,
-            // sonordaughterof:stud.sonordaughterof,
-            // phonenumber:stud.phonenumber,
-            // purposes:studpurpose,
-            // department:stud.department,
-            // year:stud.year
-                document.getElementById("proceed").disabled=true;
-                
-            }
+               
+            }   
             document.getElementById("error").innerHTML=data.message;
-            console.log(data);
+           
         })
         .catch(console.log(console.error));
 
         
         
     }    
-})
+});
 
-
+const closePopup=()=>{
+    popup.classList.remove("open-popup");
+}

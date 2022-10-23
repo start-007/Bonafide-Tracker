@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/popup.css">
   <title>Requests</title>
 </head>
 <body>
@@ -44,10 +45,14 @@
             <label for="name">Issued:<h5 id="purpose"><%=Requests[i].purpose.isissued %></h5>
             <label for="name">Ispaid:<h5 id="purpose"><%=Requests[i].purpose.paid %></h5>
             <label for="name">Amount:<h5 id="purpose"><%=Requests[i].purpose.fine %></h5>
-
-              <form action="/admin/request/fine/paid" method="post">
-                <button type="submit" name="submitbutton" value="<%=Requests[i].rollno%> <%=Requests[i].purpose.purposename%>">Mark as paid & Issue Certificate</button>
-              </form>
+              <button class="btn" onclick="openPopup()">Mark as paid & Issue Certificate</button>
+              <div class="popup" id="popup">
+                <h2>Confirm to Proceed ?</h2> 
+                  <form action="/admin/request/fine/paid" method="post">
+                    <button class="btn" type="submit" id="reqsubmit" name="submitbutton" value="<%=Requests[i].rollno%> <%=Requests[i].purpose.purposename%>" >Mark as paid & Issue Certificate</button>
+                    <button class="btn" onclick="closePopup()">Close</button>
+                  </form>
+              </div>
           <% } %>
           
         </li>
@@ -57,4 +62,13 @@
     </ul>
   </div>
 </body>
+<script>
+  let popup = document.getElementById("popup");
+  const openPopup=()=>{
+    popup.classList.add("open-popup");
+  }
+  const closePopup=()=>{
+    popup.classList.remove("open-popup");
+  }
+</script>
 </html>

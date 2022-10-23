@@ -7,6 +7,7 @@
     <title>Document</title>
     
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/popup.css">
 </head>
 <body>
     <div class="top-container">
@@ -15,7 +16,7 @@
             <h5 class="inner-para">Sultanpur(V), Pulkal(M), Sangareddy(D),Telangana-502273 ,India</h5>
         </div>
     </div>
-    <h2 id="error" class="bonafide-title">Bonafide Tracking System</h2>
+    <h2 class="bonafide-title">Bonafide Tracking System</h2>
 
   <div class="card">
       <div class="card-container">
@@ -45,18 +46,20 @@
         </form>
       </div>
   </div>
-  <div id="studentid">
-    <label for="rollnum">Rollno. :</label> <p id="rollnum"></p>
-    <label for="name">Name :</label> <p id="name"></p>
-    <label for="Dept">Department :</label> <p id="Dept"></p>
-    <label for="year">Year :</label> <p id="year"></p>
-    <label for="purpose">Purpose :</label> <p id="mypurpose"></p>
-    <label for="sodo">Son of/Daughter of :</label> <p id="sodo"></p>
+  
+  <div class="popup" id="popup">
+    <h2 id="error" class="bonafide-title">Details Form</h2>
+    <ul id="studentid" style="list-style: none">
+      
+    </ul>
+    <div class="popup-button">
+      <button class="btn" onclick="closePopup()">Close</button>
+      <form id="proceed" action="/save" method="post">
+        <input class="btn" type = "submit" id="submitbtn" value="proceed"/>
+      </form>
+    </div>
   </div>
-  <form action="/fine" method="post">
-    <input type = "submit" value="proceed" id = "proceed" disabled>
-    <br>
-  </form>
-  <script src="javascript/script.js"></script>
+  
 </body>
+<script src="javascript/script.js"></script>
 </html>
