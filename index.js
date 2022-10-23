@@ -60,8 +60,11 @@ const openedSchema=new mongoose.Schema({
   purposes:[
     {
       purposename:"String",
-      requestdate:"Date",
-      issueddate:"Date",
+      dates:[{
+        requestdate:"Date",
+        issueddate:"Date",
+        
+      }],
       isissued:"Number"
     }
   ],
@@ -120,9 +123,12 @@ app.post("/",(req,res)=>{
   today = mm + '/' + dd + '/' + yyyy;
   console.log(req.body);
   const studrollno=req.body.rollno;
+
   const studpurpose={
     purposename: req.body.purpose,
-    requestdate:today,
+    dates:[{
+      requestdate:today,
+    }],
   }
   Student.findOne({rollno:studrollno},(err,stud)=>{
     var msg="";
@@ -139,8 +145,8 @@ app.post("/",(req,res)=>{
         }
         else if(!mystud){
           console.log("fresh request");
-          studpurpose.isissued=1,
-          studpurpose.issueddate=today
+          studpurpose.isissued=1;
+          studpurpose.dates[0].issueddate=today;
           
           const studentInfo={
             rollno:studrollno,
@@ -155,6 +161,7 @@ app.post("/",(req,res)=>{
             rollno:studrollno,
             purposes:[studpurpose]
           })
+          console.log(openreq);
           openreq.save((err)=>{
             if(err) console.log(err);
             else console.log("Successfully saved");
@@ -181,7 +188,7 @@ app.post("/",(req,res)=>{
           }
           else{
             studpurpose.isissued=1;
-            studpurpose.issueddate=today;
+            studpurpose.dates[0].issueddate=today;
             const studentInfo={
               rollno:studrollno,
               name:stud.name,
@@ -322,7 +329,7 @@ app.get("/admin/requests/:typeofreq",(req,res)=>{
   
 });
 
-app.post("/admin/request/issued",(req,res)=>{
+app.post("/admin/request/fine/paid",(req,res)=>{
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!

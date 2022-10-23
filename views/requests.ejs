@@ -31,8 +31,7 @@
             <% if (purpose.isissued===Value) { %>
               
               <label for="name">Purpose Category: <h5 id="purpose"><%=purpose.purposename %></h5>
-              <label for="name">Request date: <h5 id="purpose"><%=purpose.requestdate %></h5>
-              <label for="name">Issued Date: <h5 id="purpose"><%=purpose.issueddate?purpose.issueddate:"Not yet issued" %></h5>
+              <label for="name">Dates: <h5 id="purpose"><%=purpose.dates%></h5>
               <label for="name">Issued:<h5 id="purpose"><%=purpose.isissued %></h5>
               
             <% } %>
@@ -46,7 +45,7 @@
             <label for="name">Ispaid:<h5 id="purpose"><%=Requests[i].purpose.paid %></h5>
             <label for="name">Amount:<h5 id="purpose"><%=Requests[i].purpose.fine %></h5>
 
-              <form action="/admin/request/issued" method="post">
+              <form action="/admin/request/fine/paid" method="post">
                 <button type="submit" name="submitbutton" value="<%=Requests[i].rollno%> <%=Requests[i].purpose.purposename%>">Mark as paid & Issue Certificate</button>
               </form>
           <% } %>
@@ -59,5 +58,3 @@
   </div>
 </body>
 </html>
-<!-- 
- -->
