@@ -4,62 +4,65 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/popup.css">
   <title>Requests</title>
 </head>
 <body>
-  <form action="/admin/requests/closed" method="get">
-    <button type="submit" value="Closed">Closed Requests</button>
-  </form>
-  <form action="/admin/requests/fined" method="get">
-    <button type="submit" value="Closed">Fined Requests</button>
-  </form>
-
+  <div class="tab">
+    <form action="/admin/requests/closed" method="get">
+      <button class="tablinks" id="closedreqtab" type="submit" value="Closed">Closed Requests</button>
+    </form>
+    <form action="/admin/requests/fined" method="get">
+      <button class="tablinks" id="finedreqtab" type="submit" value="Closed">Fined Requests</button>
+    </form>
+  </div>
   <h1><%= Value?"Closed Requests":"Fined Requests"%></h1>
   <h2><%= Message %></h2>
   <div class="requests-container">
-    <ul >
       <% for(var l = Requests.length, i = 0; i < l; i++) { %>
-        <li>
-            
-            <label for="rollnum">Roll Number: </label> <h5 id="rollnum"><%=Requests[i].rollno %></h5>
-            <!-- <label for="name">Name: </label> <h5 id="name"><%=Requests[i].name %></h5>
+        <div class="req-card">
+          <div class="card-1 req-card">
+            <dt>Roll Number : </dt><dd><%=Requests[i].rollno %></dd>
+          </div>
+          <!-- <label for="name">Name: </label> <h5 id="name"><%=Requests[i].name %></h5>
             <label for="year">Year: </label> <h5 id="year"><%=Requests[i].year %></h5>
             <label for="dept">Branch: </label> <h5 id="dept"><%=Requests[i].department %></h5> -->
-            <label for="purpose">Purposes: </label>   
+          <div class="card-2 req-card">
+          <h3>Purposes :</h3>
           <% if(Value===1){ %>
           <%Requests[i].purposes.forEach((purpose)=>{%>
             <% if (purpose.isissued===Value) { %>
-              
-              <label for="name">Purpose Category: <h5 id="purpose"><%=purpose.purposename %></h5>
-              <label for="name">Dates: <h5 id="purpose"><%=purpose.dates%></h5>
-              <label for="name">Issued:<h5 id="purpose"><%=purpose.isissued %></h5>
-              
+              <dl class = "desc-list">
+              <dt>Purpose Category : </dt><dd><%=purpose.purposename %></dd>
+              <dt>Dates : </dt><dd><%=purpose.dates %></dd>
+              <dt>Issued : </dt><dd><%=purpose.isissued %></dd>
+              </dl>
             <% } %>
             
           <% }); %> 
-          <% } else { %>
-            <label for="name">Purpose Category: <h5 id="purpose"><%=Requests[i].purpose.purposename %></h5>
-            <label for="name">Request date: <h5 id="purpose"><%=Requests[i].purpose.requestdate %></h5>
-            <label for="name">Issued Date: <h5 id="purpose"><%=Requests[i].purpose.issueddate?purpose.issueddate:"Not yet issued" %></h5>
-            <label for="name">Issued:<h5 id="purpose"><%=Requests[i].purpose.isissued %></h5>
-            <label for="name">Ispaid:<h5 id="purpose"><%=Requests[i].purpose.paid %></h5>
-            <label for="name">Amount:<h5 id="purpose"><%=Requests[i].purpose.fine %></h5>
+          <% }  else { %>
+            <dl class = "desc-list">
+            <dt> Purpose Category: </dt> <dd><%=Requests[i].purpose.purposename %></dd>
+            <dt> Request date: </dt> <dd><%=Requests[i].purpose.requestdate %></dd>
+            <dt> Issued Date: </dt> <dd><%=Requests[i].purpose.issueddate?purpose.issueddate:"Not yet issued" %></dd>
+            <dt> Issued: </dt> <dd><%=Requests[i].purpose.isissued %></dd>
+            <dt> Ispaid: </dt> <dd><%=Requests[i].purpose.paid %></dd>
+            <dt> Amount: </dt> <dd><%=Requests[i].purpose.fine %></dd>
+            </dl>
               <button class="btn" onclick="openPopup()">Mark as paid & Issue Certificate</button>
               <div class="popup" id="popup">
-                <h2>Confirm to Proceed ?</h2> 
+                <h3>Confirm to Proceed ?</h3> 
                   <form action="/admin/request/fine/paid" method="post">
                     <button class="btn" type="submit" id="reqsubmit" name="submitbutton" value="<%=Requests[i].rollno%> <%=Requests[i].purpose.purposename%>" >Mark as paid & Issue Certificate</button>
                     <button class="btn" onclick="closePopup()">Close</button>
                   </form>
               </div>
           <% } %>
-          
-        </li>
+        </div>
+        </div>
       
       <% } %>
-         
-    </ul>
   </div>
 </body>
 <script>
@@ -70,5 +73,13 @@
   const closePopup=()=>{
     popup.classList.remove("open-popup");
   }
+  // const closedTab=()=>{
+  //       document.getElementById("closedreqtab").classList.add("active");
+  //       document.getElementById("finedreqtab").classList.remove("active");
+  //   }
+  //   const finedTab=()=>{
+  //       document.getElementById("finedreqtab").classList.add("active");
+  //       document.getElementById("closedreqtab").classList.remove("active");
+  //   }
 </script>
 </html>
