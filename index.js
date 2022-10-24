@@ -132,7 +132,7 @@ app.post("/getdata",(req,res)=>{
       console.log(err);
     }
     else if(!stud){
-      res.send({message:"Student entry not saved"});
+      res.send({message:"Student entry not saved",proceed:1});
     }
     else{
       Open.findOne({rollno:studrollno},(err,mystud)=>{

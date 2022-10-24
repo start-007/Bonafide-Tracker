@@ -34,6 +34,7 @@ document.getElementById("submit").addEventListener("click",(e)=>{
             let popup=document.getElementById("popup");
             popup.classList.add("open-popup");
             document.getElementById("error").innerHTML=data.message;
+           // document.getElementById("prompt").innerHTML=data.message;
             var myList = document.getElementById('studentid');
             myList.innerHTML = '';
             if(data.proceed){
