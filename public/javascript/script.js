@@ -10,7 +10,9 @@ document.getElementById("submit").addEventListener("click",(e)=>{
         myerror=true;
     }
     if(myerror){
-        document.getElementById("error").innerHTML="Enter correct roll number";
+        let i = document.getElementById("prompt"); 
+        i.innerHTML="Enter correct roll number";
+        i.classList.add("error-msg");
     }
     else{
         fetch("/getdata", {
@@ -26,6 +28,9 @@ document.getElementById("submit").addEventListener("click",(e)=>{
             console.log(response);
             return response.json();
         }).then(function(data){
+            let i = document.getElementById("prompt"); 
+            i.innerHTML="Fill the Details";
+            i.classList.remove("error-msg");
             let popup=document.getElementById("popup");
             popup.classList.add("open-popup");
             document.getElementById("error").innerHTML=data.message;
@@ -77,9 +82,13 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
     let myerror = false;
     if(srollno.length !=10  || !srollno.includes("SS") || !srollno.includes("A0")){
         myerror=true;
+
+
     }
     if(myerror){
-        document.getElementById("error").innerHTML="Enter correct roll number";
+        let i = document.getElementById("prompt"); 
+        i.innerHTML="Enter correct roll number";
+        i.classList.add("error-msg");
     }
     else{
         const route=document.getElementById("proceed").action;
@@ -101,6 +110,9 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
             console.log(response);
             return response.json();
         }).then(function(data){
+            let i = document.getElementById("prompt"); 
+            i.innerHTML="Fill the Details";
+            i.classList.remove("error-msg");
             console.log(data);
             if(data.proceed){
                 document.getElementById("submitbtn").disabled=true;
