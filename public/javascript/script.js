@@ -31,6 +31,14 @@ document.getElementById("submit").addEventListener("click",(e)=>{
             document.getElementById("error").innerHTML=data.message;
             var myList = document.getElementById('studentid');
             myList.innerHTML = '';
+            if(data.proceed){
+                document.getElementById("submitbtn").disabled=true;
+                document.getElementById("submitbtn").style.visibility = "hidden";
+            }
+            else{
+                document.getElementById("submitbtn").disabled=false;
+                document.getElementById("submitbtn").style.visibility = "visible";
+            }
             if(data.fine===1){
                 document.getElementById("proceed").action="/fine"
                 console.log("set to zero");
@@ -94,10 +102,20 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
             return response.json();
         }).then(function(data){
             console.log(data);
+            if(data.proceed){
+                document.getElementById("submitbtn").disabled=true;
+                document.getElementById("submitbtn").style.visibility = "hidden";
+            }
+            else{
+                document.getElementById("submitbtn").disabled=false;
+                document.getElementById("submitbtn").style.visibility = "visible";
+            }
             if(data.fine){
                 document.getElementById("error").innerHTML=data.message;
             }
             else{
+                let popup=document.getElementById("popup");
+                popup.classList.remove("open-popup");
                 window.open("/loadedform/"+srollno+"/"+spurpose,"_self");
             }
             
