@@ -13,6 +13,8 @@ const path=require("path");
 const cors=require("cors");
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { prependListener } = require('process');
+const { rmSync } = require('fs');
 
 const PORT=process.env.PORT || 3000; 
 
@@ -43,17 +45,17 @@ app.use(cors());
 
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
 
-// mongoose.connect("mongodb://localhost:27017/bonafideDB",{useNewUrlParser:true});
-const URI=process.env.ATLAS_URI
-const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  console.log(err);
-});
+mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
+// const URI=process.env.ATLAS_URI
+// const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   console.log(err);
+// });
 
-mongoose.connect(URI,(err)=>{
-  console.log(err);
-});
+// mongoose.connect(URI,(err)=>{
+//   console.log(err);
+// });
 
 const openedSchema=new mongoose.Schema({
   rollno:"String",
@@ -115,7 +117,7 @@ app.get("/",(req,res)=>{
 
 
 
-app.post("/",(req,res)=>{
+app.post("/getdata",(req,res)=>{
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -224,18 +226,51 @@ app.post("/save",(req,res)=>{
       openreq.save((err)=>{
         if(err) console.log(err);
         else console.log("Successfully saved");
-      })
-      res.send({message:"Successfully saved"});
+      });
+      
     }
     else{
       opened.purposes.push(purpose);
       opened.save((err)=>{
         if(err) console.log(err);
         else console.log("Successfully saved");
-      })
-      res.send({message:"Successfully updated"});
+      });
     }
-  })
+   
+    res.send({message:"successful"});
+     
+  });
+  
+});
+
+app.get("/loadedform/:rollno/:purpose",(req,res)=>{
+ 
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  today = mm + '/' + dd + '/' + yyyy;
+  console.log("in form",req.params.rollno,req.params.purpose);
+  Student.findOne({rollno:req.params.rollno},(err,stud)=>{
+
+    if(err){
+      console.log(err);
+    }
+    else{
+      console.log("About to send");
+      res.render("form",{
+        Rollno:req.params.rollno,
+        Date:today,
+        Year:stud.year,
+        Name:stud.name,
+        Sonordaughterof:stud.sonordaughterof,
+        Department:stud.department,
+        Purpose:req.params.purpose
+      })
+    }
+
+  });
+
 })
 
 
@@ -269,7 +304,7 @@ app.post("/fine",(req,res)=>{
       });
       console.log("succesfully saved in fine");
       msg="Successfully saved & make sure you pay the fine";
-      fine=0;
+      fine=1;
     }
     else{
       msg="There is another request to paid.So you can't make a new one util it is paid";
@@ -355,28 +390,49 @@ app.post("/admin/request/fine/paid",(req,res)=>{
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
   today = mm + '/' + dd + '/' + yyyy;
-  const value=req.body;
-  console.log(value);
+  const value=req.body.submitbutton;
+  const myrollno=value.substring(0, value.indexOf(' ')); // "72"
+  const mypurpose=value.substring(value.indexOf(' ') + 1);
+  console.log(myrollno,mypurpose);
 
-  // Open.findOne({rollno:myrollno},(err,stud)=>{
-  //   if(err){
-  //     console.log(err);
-  //   }
-  //   else{
-  //     stud.purposes.forEach((purpose)=>{
-  //       if(purpose.purposename===mypurpose){
-  //         purpose.issueddate=today;
-  //         purpose.isissued=1;
-  //         console.log("may be");
-  //       }
-  //     });
-  //     stud.save((err)=>{
-  //       if(err) console.log(err);
-  //       else console.log("successfully issued");
-  //     })
-  //     res.redirect(req.get('referer'));
-  //   }
-  // })
+  Fine.findOne({rollno:myrollno},(err,fine)=>{
+    if(err){
+      console.log(err);
+    }
+    else{
+      Open.findOne({rollno:myrollno},(err,stud)=>{
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(stud.purposes.dates);
+          stud.purposes.forEach(purpose=>{
+            if(purpose.purposename===mypurpose){
+              purpose.dates.push({
+                requestdate:fine.requestdate,
+                issueddate:today
+              })
+            }
+          })
+          stud.save((err)=>{
+            if(err) console.log(err);
+            else console.log("successfully issued in student as fine");
+          })
+          Fine.deleteOne({rollno:myrollno},(err)=>{
+            if(err){
+              console.log(err);
+            }
+            else{
+              console.log("deleted");
+            }
+          })
+          res.redirect("/loadedform/"+myrollno+"/"+mypurpose);
+        }
+
+      })
+      
+    }
+  })
 
 });
 

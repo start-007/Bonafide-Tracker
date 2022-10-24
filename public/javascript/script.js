@@ -13,7 +13,7 @@ document.getElementById("submit").addEventListener("click",(e)=>{
         document.getElementById("error").innerHTML="Enter correct roll number";
     }
     else{
-        fetch("/", {
+        fetch("/getdata", {
             method: "POST",
             headers: {   
                 'Content-Type': 'application/json',   
@@ -94,20 +94,17 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
             return response.json();
         }).then(function(data){
             console.log(data);
-            var myList = document.getElementById('studentid');
-            myList.innerHTML = '';
             if(data.fine){
-                document.getElementById("studentid").innerHTML="";           
+                document.getElementById("error").innerHTML=data.message;
             }
             else{
-               
-            }   
-            document.getElementById("error").innerHTML=data.message;
+                window.open("/loadedform/"+srollno+"/"+spurpose,"_self");
+            }
+            
            
         })
         .catch(console.log(console.error));
 
-        
         
     }    
 });
