@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form</title>
+    <title><%= Rollno %>-Bonafide</title>
     <style>
         body{
             text-align: center;
         }
+        @media print { @page { margin: 0; } 
+        body { margin: 1.6cm; } }
     </style>
 </head>
 <body >
@@ -30,14 +32,13 @@
     
     <p>
         
-        <span><%= Rollno %></span>
         This is to certify that Mr./Mrs. <%=Name%> Son/Daughter of 
         <%= Sonordaughterof %> studying in B.Tech <%= Year %>th Year
-        <% Department %> Branch with Roll No <%= Rollno %> is 
+        <%= Department %> Branch with Roll No <%= Rollno %> is 
         Bonafide student of this college.
     </p>
     <p>
-        The certificate is issued to enable him/her to apply for <%= Purpose %>
+        The certificate is issued to enable him/her to apply for <%= Purpose %> purpose
         only.
     </p>
     <div>
@@ -48,4 +49,9 @@
     </div>
     
 </body>
+
+<script type="text/javascript">
+    window.onload = function() { window.print(); }
+</script>
+
 </html>
