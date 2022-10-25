@@ -17,8 +17,8 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const { prependListener } = require('process');
 const { rmSync } = require('fs');
 
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+//const session = require('express-session');
+//const MongoStore = require('connect-mongo')(session);
 
 
 const PORT=process.env.PORT || 3000; 
@@ -32,24 +32,24 @@ app.use(bodyParser.urlencoded({
 
 app.set("view engine", "ejs");
 
-app.use(session({
-  secret: 'foo',
-  store: new MongoStore(options)
-}));
+// app.use(session({
+//   secret: 'foo',
+//   store: new MongoStore(options)
+// }));
 
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use(session({
-//   secret:"Our little secret.",
-//   resave:false,
-//   saveUninitialized:false,
+app.use(session({
+  secret:"Our little secret.",
+  resave:false,
+  saveUninitialized:false,
 
-// }));
+}));
 
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
-// app.use(passport.session());
+app.use(passport.session());
 
 app.use(cors());
 
