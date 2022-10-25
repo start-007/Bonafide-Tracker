@@ -6,6 +6,7 @@ const app = express();
 const ejs = require("ejs");
 const mongoose=require("mongoose");
 const session=require("express-session");
+var session = require('cookie-session');
 const passport=require("passport");
 const passportLocalMongoose=require("passport-local-mongoose");
 const findOrCreate=require("mongoose-findorcreate");
@@ -39,16 +40,16 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-  secret:"Our little secret.",
-  resave:false,
-  saveUninitialized:false,
+// app.use(session({
+//   secret:"Our little secret.",
+//   resave:false,
+//   saveUninitialized:false,
 
-}));
+// }));
 
-app.use(passport.initialize());
+// app.use(passport.initialize());
 
-app.use(passport.session());
+// app.use(passport.session());
 
 app.use(cors());
 
