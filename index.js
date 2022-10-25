@@ -16,6 +16,10 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const { prependListener } = require('process');
 const { rmSync } = require('fs');
 
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
+
 const PORT=process.env.PORT || 3000; 
 
 app.use(express.json());
@@ -26,6 +30,12 @@ app.use(bodyParser.urlencoded({
 
 
 app.set("view engine", "ejs");
+
+app.use(session({
+  secret: 'foo',
+  store: new MongoStore(options)
+}));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
