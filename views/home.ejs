@@ -30,16 +30,20 @@
           <div class="card-items">
             <label id = "purpose"> Purpose of Bonafide : </label>
 
-            <select id ="purposemenu">  
-              <option value = "def"> Select the Options Below </option> 
+            <select id ="purposemenu"  onchange="yesnoCheck(this);">  
+              
               <option value = "Bus Pass"> Bus Pass </option>  
               <option value = "Bank Account"> Bank Account </option>  
               <option value = "Passport"> Passport </option>  
               <option value = "Scholarship"> Scholarship </option> 
               <option value = "Cast of Income"> Cast of Income </option>  
               <option value = "Internship"> Internship </option> 
+              <option value = "Other">Other</option> 
             </select>
             <br>
+          </div>
+          <div id="ifYes" style="display: none;">
+            <label for="Other">Enter the purpose:</label> <input type="text" id="Other" name="Other" /><br />
           </div>
           <div class="submitbtncontainer">
             <input class="submitbtn" type = "submit" value="Submit" id = "submit"><br>
