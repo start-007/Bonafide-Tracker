@@ -1,11 +1,24 @@
-
+function yesnoCheck(that) {
+    
+    if (that.value == "Other") {
+        document.getElementById("ifYes").style.display = "block";
+        console.log("working");
+    }
+    else{
+        document.getElementById("ifYes").style.display = "none";
+    }
+}
 document.getElementById("submit").addEventListener("click",(e)=>{
     e.preventDefault();   
-    let srollno = document.getElementById('rollno').value;
-    let spurpose = document.getElementById('purposemenu').value;
+    var srollno = document.getElementById('rollno').value;
+    var spurpose = document.getElementById('purposemenu').value;
     srollno = srollno.toUpperCase();
-    console.log(srollno,spurpose);
+    
     let myerror = false;
+    if(spurpose=="Other"){
+        spurpose=document.getElementById("Other").value;
+    }
+    console.log(srollno,spurpose);
     if(srollno.length !=10  || !srollno.includes("SS") || !srollno.includes("A0")){
         myerror=true;
     }

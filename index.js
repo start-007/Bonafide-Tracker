@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const ejs = require("ejs");
 const mongoose=require("mongoose");
-const session=require("express-session");
+//const session=require("express-session");
+var session = require('cookie-session');
 const passport=require("passport");
 const passportLocalMongoose=require("passport-local-mongoose");
 const findOrCreate=require("mongoose-findorcreate");
@@ -15,6 +16,10 @@ const cors=require("cors");
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const { prependListener } = require('process');
 const { rmSync } = require('fs');
+
+//const session = require('express-session');
+//const MongoStore = require('connect-mongo')(session);
+
 
 const PORT=process.env.PORT || 3000; 
 
@@ -26,6 +31,12 @@ app.use(bodyParser.urlencoded({
 
 
 app.set("view engine", "ejs");
+
+// app.use(session({
+//   secret: 'foo',
+//   store: new MongoStore(options)
+// }));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -45,13 +56,13 @@ app.use(cors());
 
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
 
-mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
-// const URI=process.env.ATLAS_URI
-// const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   console.log(err);
-// });
+// mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
+const URI=process.env.ATLAS_URI
+const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  console.log(err);
+});
 
 // mongoose.connect(URI,(err)=>{
 //   console.log(err);
