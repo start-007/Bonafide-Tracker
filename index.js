@@ -56,7 +56,6 @@ app.use(cors());
 
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
 
-//mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
 const URI=process.env.ATLAS_URI
 const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect(err => {

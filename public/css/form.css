@@ -1,0 +1,99 @@
+.form-container { 
+    outline: 3px solid black;    
+    margin: 30px;  
+    padding: 10px;  
+    outline-offset: 0.5em;
+    background-color:#FEF8DD;
+}
+.top-content {
+    display: inline-block;
+    width: 100%;
+    height: 25px;
+    padding: 4px 6px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 13px;
+    clear: both;
+    text-align: center ;
+}
+.logo{
+    height : 150px;
+}
+.top-content .serial-num {
+    float: left;
+}
+.top-content .original {
+    float: right;
+}
+.clg-heading {
+    text-align: center;
+    font-family: "Roboto";
+    color:red;
+    letter-spacing: 1px;
+    
+}
+.clg-title {
+    font-size:16px;
+    font-weight: bold;
+    word-spacing: 2px;
+}
+.clg-address {
+    font-size: 13px;
+    font-weight: 500px;
+    letter-spacing: 1px;
+    
+}
+.bonafide-title {
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    word-spacing: 2px;
+    text-decoration-line: underline;
+    text-decoration-color: red;
+}
+.middle-details {
+    display: block;
+    height: 20px;
+    padding: 4px 6px;
+    font-size: 16px;
+    font-weight: bold;
+    color: brown;
+    margin-bottom: 7px;
+    clear: both;
+}
+.middle-details .hallticket {
+    float: left;
+}
+.middle-details .date {
+    float: right;
+}
+.details-filling {
+    font-size: 28px;
+    color:black;
+    font-weight: 500px;
+    font-family: "Roboto";
+    font-style: italic;
+    word-spacing: 1px;
+}
+.start-details {
+    padding-left: 35px;
+}
+.filled-values {
+    font-weight: bold;
+}
+.bottom-container {
+    padding-left: 500px;
+    text-align: right;
+    font-size:10px;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color:red;
+}
+.princi {
+    text-align: center;
+    
+}
+.btm-clg-name {
+    text-align:center;
+}
