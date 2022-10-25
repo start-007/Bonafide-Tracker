@@ -54,7 +54,7 @@
               <div class="popup" id="popup">
                 <h3>Confirm to Proceed ?</h3> 
                   <form action="/admin/request/fine/paid" method="post">
-                    <button class="btn" type="submit" id="reqsubmit" name="submitbutton" value="<%=Requests[i].rollno%> <%=Requests[i].purpose.purposename%>" >Mark as paid & Issue Certificate</button>
+                    <button  onclick="closePopup()" class="btn" type="submit" id="reqsubmit" name="submitbutton" value="<%=Requests[i].rollno%> <%=Requests[i].purpose.purposename%>" >Mark as paid & Issue Certificate</button>
                     <button class="btn" onclick="closePopup()">Close</button>
                   </form>
               </div>
