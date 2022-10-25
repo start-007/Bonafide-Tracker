@@ -92,6 +92,9 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
     let srollno = document.getElementById('rollno').value;
     let spurpose = document.getElementById('purposemenu').value;
     srollno = srollno.toUpperCase();
+    if(spurpose=="Other"){
+        spurpose=document.getElementById("Other").value;
+    }
     console.log(srollno,spurpose);
     let myerror = false;
     if(srollno.length !=10  || !srollno.includes("SS") || !srollno.includes("A0")){
