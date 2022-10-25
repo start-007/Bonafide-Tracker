@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= Rollno %>-Bonafide</title>
+    <link rel="stylesheet" href="/css/form.css">
     <style>
         body{
             text-align: center;
@@ -14,42 +15,44 @@
     </style>
 </head>
 <body >
-    <span>S NO</span>
-    <span>ORIGINAL</span>
-    <div>
-        
-        <h1>JNTUH UNIVERSITY COLLEGE OF ENGINEERING SULTANPUR</h1>
-        
-        <h5 class="inner-para">Pulkal(M), Sangareddy(D),Telangana-502273 ,India</h5>
-        <h2>BONAFIDE CERTIFICATE</h2>
-         
-    </div>
-    <div>
-        <span>Hall Ticket No.</span><span><%= Rollno %></span>
-        <span>Date.</span>
-        <span><%= Date %></span>
-    </div>
+    <div class="form-container">
+        <div class="top-content">
+            <span class="serial-num">S.NO</span>
+            <img class="logo" src="/assets/jntuhlogo.png" alt="jntuh-logo"/>
+            <span class="original">ORIGINAL</span>
+        </div>
+        <div class="clg-heading">
+            <h1 class="clg-title">JNTUH UNIVERSITY
+                COLLEGE OF ENGINEERING SULTANPUR</h1>
+            <h5 class="clg-address">Pulkal(M), Sangareddy District, Telangana.</h5>
+            <h2 class="bonafide-title">BONAFIDE CERTIFICATE</h2> 
+        </div>
     
-    <p>
-        
-        This is to certify that Mr./Mrs. <%=Name%> Son/Daughter of 
-        <%= Sonordaughterof %> studying in B.Tech <%= Year %>th Year
-        <%= Department %> Branch with Roll No <%= Rollno %> is 
-        Bonafide student of this college.
-    </p>
-    <p>
-        The certificate is issued to enable him/her to apply for <%= Purpose %> purpose
-        only.
-    </p>
-    <div>
-
-        <h3>PRINCIPAL</h3> 
-        <h4>JNTUH UNIVERSITY COLLEGE OF ENGINEERING SULTANPUR</h4>
-
+        <div class="middle-details">
+            <span class="hallticket">Hall Ticket No. <%= Rollno %></span>
+            <span class="date">Date : <%= Date %></span>
+        </div>
+        <div>
+        <p class="details-filling">
+            <span class="start-details">This is to certify that</span> <span class="filled-values">Mr./Ms <%=Name%></span>
+            Son/Daughter of <span class="filled-values"><%= Sonordaughterof %></span> 
+             Studying in B.Tech <span class="filled-values"><%= Year %>th Year</span>
+            <% Department %> Branch with <span class="filled-values">Roll No <%= Rollno %></span> is 
+            Bonafide student of this college.
+        </p>
+        <p class="details-filling">The certificate is issued to enable him/her to apply for
+            <span class="filled-values"> <%= Purpose %> purpose</span>
+            only.</p>
+        </div>
+        <div class="bottom-container">
+            <div>
+                <h3 class="princi">PRINCIPAL</h3>
+            </div>  
+            <div>
+                <h4 class="btm-clg-name">JNTUH UNIVERSITY COLLEGE OF ENGINEERING SULTANPUR</h4>
+            </div>
+        </div>
     </div>
-    
-</body>
-
 <script type="text/javascript">
     window.onload = function() { window.print(); }
 </script>

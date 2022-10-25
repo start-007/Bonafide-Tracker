@@ -1,0 +1,46 @@
+
+body{
+  background-color: beige;
+}
+div{
+  margin:0.5%;
+}
+
+.req-card{
+  border-radius: 25px;
+  border: 2px solid #73AD21;
+  padding: 20px;
+  width: 50%;
+  margin: auto;
+  height: auto;
+  flex-direction: column;
+}
+
+.desc-list{
+  
+  flex-direction: row;
+}
+
+.card-1{
+  margin: 1%;
+  font-size: 20px
+}
+
+
+.category{
+  border-radius: 25px;
+  border: 0.5px solid #73AD21;
+  margin: 1%;
+  padding: 2%;
+}
+.dates{
+ 
+  margin: 1%;
+  padding: 2%;
+}
+.btn{
+  font-size: 20px;
+}
+.purpose{
+  font-size: 18px;
+}

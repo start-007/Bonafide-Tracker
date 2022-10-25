@@ -51,7 +51,8 @@
   width: 50%;
   background-color: inherit;
   float: left;
-  border: none;
+  border-radius: 15px;
+  border: 2px solid #73AD21;
   outline: none;
   cursor: pointer;
   padding: 14px 16px;
