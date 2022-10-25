@@ -41,7 +41,7 @@ display:flex;
 justify-content:center;
 }
 .card-container {
-  text-align:left;
+  text-align:center;
   background-color:#E6E6E6  ;
   width:40%;
   border-radius:25px;
@@ -107,4 +107,9 @@ h1 {
 
 .desc-list{
   display: flex;
+}
+
+.others-text{
+  text-align: center;
+  display: none;
 }

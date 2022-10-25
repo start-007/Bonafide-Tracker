@@ -143,3 +143,11 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
 const closePopup=()=>{
     popup.classList.remove("open-popup");
 }
+
+function checkvalue(val)
+{
+    if(val==="others")
+       document.getElementById('others-text').style.display='block';
+    else
+       document.getElementById('others-text').style.display='none'; 
+}
