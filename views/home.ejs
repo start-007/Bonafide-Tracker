@@ -21,31 +21,29 @@
 
   <div class="card">
       <div class="card-container">
-        <h2 class="card-heading" id="prompt">Fill the details</h2>
+        <h2 class="card-heading" id="prompt">Fill the Details</h2>
         <form method="post" id = "form" action="/">
           <div class="card-items">
-            <label for="rollno">Roll Number of Student : </label>
-            <input type="text" id="rollno" name="rollno"><br>
+            <label class="rollnum" for="rollno">Roll Number of Student : </label>
+            <input class="text-box" type="text" id="rollno" name="rollno"><br>
           </div>
           <div class="card-items">
-            <label id = "purpose"> Purpose of Bonafide : </label>
+            <label class="rollnum" id = "purpose"> Purpose of Bonafide : </label>
 
-            <select id ="purposemenu">  
-              <option value = "def"> Select the Options Below </option> 
+            <select class="text-box" id ="purposemenu"  onchange="yesnoCheck(this);">  
+              
               <option value = "Bus Pass"> Bus Pass </option>  
               <option value = "Bank Account"> Bank Account </option>  
               <option value = "Passport"> Passport </option>  
               <option value = "Scholarship"> Scholarship </option> 
               <option value = "Cast of Income"> Cast of Income </option>  
               <option value = "Internship"> Internship </option> 
+              <option value = "Other">Other</option> 
             </select>
-            <div class="others-text">
-              <input type="text" name="color" id="others-text" style="display:none"/>
-            </div>
             <br>
           </div>
           <div id="ifYes" style="display: none;">
-            <label for="Other">Enter the purpose:</label> <input type="text" id="Other" name="Other" /><br />
+            <label class="rollnum" for="Other">Enter the purpose:</label> <input class="text-box" type="text" id="Other" name="Other" required/><br />
           </div>
           <div class="submitbtncontainer">
             <input class="submitbtn" type = "submit" value="Submit" id = "submit"><br>
