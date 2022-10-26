@@ -7,15 +7,13 @@ body{
   background-color: lightblue;
   height:30%;
   padding:20px;
-  padding-top:0px;
+  padding-top:20px;
   margin-top:0px;
   margin-bottom: 8px;
   text-align: center;
 }
 
-.inner-container {
-  padding: 10px;
-}
+
 
 .inner-heading {
   color:navy;
@@ -43,19 +41,18 @@ display:flex;
 justify-content:center;
 }
 .card-container {
-  text-align:left;
+  text-align:center;
   background-color:#E6E6E6  ;
   width:40%;
   border-radius:25px;
-  padding:25px;
+  padding:15px;
   outline: 3px solid black;    
-  margin: 30px;  
-  padding: 10px;  
+  margin: 4px;    
   outline-offset: 0.5em;
 }
 .card-heading{
   text-align: center;
-  font-size: 25px;
+  font-size: 30px;
   font-weight: 600;
   background-image: linear-gradient(to left, #111817, #44d28f);
   color: transparent;
@@ -88,6 +85,7 @@ border-radius: 18px;
   font-size: 16px;
 }
 li{
+  text-align: left;
   text-transform: capitalize;
   font-size: 22px;
 }
@@ -108,4 +106,29 @@ h1 {
 
 .desc-list{
   display: flex;
+}
+
+.others-text{
+  text-align: center;
+  display: none;
+}
+
+.rollnum {
+  font-size:22px;
+}
+
+.text-box {
+  padding: 8px 10px;
+  margin: 4px 0;
+  width:50%;
+  background-color: white;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+input{
+  font-size: 20px;
+}
+select {
+  font-size:20px;
 }

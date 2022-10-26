@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="/css/popup.css">
 </head>
 <body>
-    <div class="top-container">
-        <img src="/assets/jntuhlogo.png" alt="" srcset="">
+      <div class="top-container">
+        <img src="/assets/jntuhlogo.png" height="150px" width="150px">
         <div class="inner-container">
             <h1 class="inner-heading">JNTUH University College of Engineering Sultanpur</h1>
             <h5 class="inner-para">Sultanpur(V), Pulkal(M), Sangareddy(D),Telangana-502273 ,India</h5>
@@ -19,18 +19,18 @@
     </div>
     <h2 class="bonafide-title">Bonafide Tracking System</h2>
 
-  <div class="card">
+    <div class="card">
       <div class="card-container">
-        <h2 class="card-heading" id="prompt">Fill the details</h2>
+        <h2 class="card-heading" id="prompt">Fill the Details</h2>
         <form method="post" id = "form" action="/">
           <div class="card-items">
-            <label for="rollno">Roll Number of Student : </label>
-            <input type="text" id="rollno" name="rollno"><br>
+            <label class="rollnum" for="rollno">Roll Number of Student : </label>
+            <input class="text-box" type="text" id="rollno" name="rollno"><br>
           </div>
           <div class="card-items">
-            <label id = "purpose"> Purpose of Bonafide : </label>
+            <label class="rollnum" id = "purpose"> Purpose of Bonafide : </label>
 
-            <select id ="purposemenu"  onchange="yesnoCheck(this);">  
+            <select class="text-box" id ="purposemenu"  onchange="yesnoCheck(this);">  
               
               <option value = "Bus Pass"> Bus Pass </option>  
               <option value = "Bank Account"> Bank Account </option>  
@@ -43,16 +43,17 @@
             <br>
           </div>
           <div id="ifYes" style="display: none;">
-            <label for="Other">Enter the purpose:</label> <input type="text" id="Other" name="Other" /><br />
+            <label class="rollnum" for="Other">Enter the purpose:</label> <input class="text-box" type="text" id="Other" name="Other" required/><br />
           </div>
           <div class="submitbtncontainer">
             <input class="submitbtn" type = "submit" value="Submit" id = "submit"><br>
           </div>
         </form>
       </div>
-  </div>
-  
-  <div class="popup" id="popup">
+    </div>
+
+    <div class="popup" id="popup">
+    <img src="/assets/tick.png">
     <h2 id="error" class="bonafide-title">Details Form</h2>
     <ul id="studentid" style="list-style: none">
       
@@ -63,8 +64,7 @@
         <input class="btn" type = "submit" id="submitbtn" value="proceed"/>
       </form>
     </div>
-  </div>
-  
+    </div>
 </body>
 <script src="javascript/script.js"></script>
 </html>
