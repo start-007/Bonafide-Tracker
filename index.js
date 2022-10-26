@@ -268,7 +268,7 @@ app.get("/loadedform/:rollno/:purpose",(req,res)=>{
       console.log(err);
     }
     else{
-      console.log("About to send");
+      console.log(stud.department);
       res.render("form",{
         Rollno:req.params.rollno,
         Date:today,
