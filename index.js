@@ -8,6 +8,7 @@ const mongoose=require("mongoose");
 //const session=require("express-session");
 var session = require('cookie-session');
 const passport=require("passport");
+
 const passportLocalMongoose=require("passport-local-mongoose");
 const findOrCreate=require("mongoose-findorcreate");
 const path=require("path");
@@ -16,10 +17,11 @@ const cors=require("cors");
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const { prependListener } = require('process');
 const { rmSync } = require('fs');
+const LocalStrategy = require('passport-local').Strategy;
+
 
 //const session = require('express-session');
 //const MongoStore = require('connect-mongo')(session);
-
 
 const PORT=process.env.PORT || 3000; 
 
@@ -31,12 +33,6 @@ app.use(bodyParser.urlencoded({
 
 
 app.set("view engine", "ejs");
-
-// app.use(session({
-//   secret: 'foo',
-//   store: new MongoStore(options)
-// }));
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -106,24 +102,81 @@ const adminSchema=new mongoose.Schema({
   username:"String",
   password:"String"
 })
-// adminSchema.plugin(passportLocalMongoose);
+adminSchema.plugin(passportLocalMongoose);
+
 const Fine=new mongoose.model("Fine",finedSchema);
 const Student=new mongoose.model("Student",studentSchema);
 const Open=new mongoose.model("Open",openedSchema);
 const Admin=new mongoose.model("Admin",adminSchema);
 
 
-// adminSchema.plugin(findOrCreate);
+adminSchema.plugin(findOrCreate);
 
-// passport.use(Admin.createStrategy());
+passport.use(Admin.createStrategy());
 
-// passport.serializeUser(Admin.serializeUser());
-// passport.deserializeUser(Admin.deserializeUser());
+passport.serializeUser(Admin.serializeUser());
+passport.deserializeUser(Admin.deserializeUser());
+
+////////////////////////////////////////Login Routes////////////////////////////////////////////////
+app.get("/login",(req,res)=>{
+  res.render("adminpage");
+});
+
+app.post("/login",(req,res)=>{
+  console.log(req.body.username,req.body.password);
+  const admin=new Admin({
+    username:req.body.username,
+    password:req.body.password
+  });
+
+ req.login(admin,(err)=>{
+    if(err){
+       console.log(err);
+    }
+    else{
+      
+       passport.authenticate("local", {failureRedirect:'/login' })(req,res,()=>{
+          console.log("in login");
+          res.redirect("/");
+       });
+       
+    }
+  })
+});
+
+
+// app.post("/register",(req,res)=>{
+//   console.log(req.body.username,req.body.password);
+//   Admin.register({
+//     username:req.body.username
+//     },req.body.password,(err,user)=>{
+//     if(err){
+//        console.log(err);
+//        res.redirect("/login");
+//     }
+//     else{
+//         console.log("entered");
+//         passport.authenticate("local")(req,res,()=>{
+//             res.redirect("/");
+//         });
+       
+//     }
+// });
+// });
+
 
 ///////////////////////////////////////////////Routes/////////////////////////////////////////////
 
 app.get("/",(req,res)=>{
-  res.render("home");
+  console.log("in home",req.user);
+  if(req.isAuthenticated()){
+    res.render("home");
+  }
+  else{
+    console.log("not authenticated in home");
+    res.redirect('/login');
+  }
+  
 });
 
 
@@ -255,32 +308,37 @@ app.post("/save",(req,res)=>{
 });
 
 app.get("/loadedform/:rollno/:purpose",(req,res)=>{
- 
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-  var yyyy = today.getFullYear();
-  today = mm + '/' + dd + '/' + yyyy;
-  console.log("in form",req.params.rollno,req.params.purpose);
-  Student.findOne({rollno:req.params.rollno},(err,stud)=>{
+  if(req.isAuthenticated()){
 
-    if(err){
-      console.log(err);
-    }
-    else{
-      console.log(stud.department);
-      res.render("form",{
-        Rollno:req.params.rollno,
-        Date:today,
-        Year:stud.year,
-        Name:stud.name,
-        Sonordaughterof:stud.sonordaughterof,
-        Department:stud.department,
-        Purpose:req.params.purpose
-      })
-    }
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      today = mm + '/' + dd + '/' + yyyy;
+      console.log("in form",req.params.rollno,req.params.purpose);
+      Student.findOne({rollno:req.params.rollno},(err,stud)=>{
 
-  });
+        if(err){
+          console.log(err);
+        }
+        else{
+          console.log(stud.department);
+          res.render("form",{
+            Rollno:req.params.rollno,
+            Date:today,
+            Year:stud.year,
+            Name:stud.name,
+            Sonordaughterof:stud.sonordaughterof,
+            Department:stud.department,
+            Purpose:req.params.purpose
+          })
+        }
+
+      });
+  }
+  else{
+    res.redirect("/login");
+  }
 
 })
 
@@ -329,69 +387,47 @@ app.post("/fine",(req,res)=>{
 })
 
 
-app.get("/admin",(req,res)=>{
-  res.render("adminpage",{Message:"Enter the details"});
-})
-
-app.post("/admin",(req,res)=>{
-
-  Admin.findOne({username:req.body.adminid},(err,admin)=>{
-
-    if(err){
-      console.log(err);
-    }
-    else if(!admin){
-      res.render("adminpage",{Message:"The details entered by you are incorrect or you are not the admin"});
-    }
-    else{
-      console.log(admin.password);
-      if(admin.password===req.body.password){
-        res.redirect("/admin/requests/opened");
-      }
-      else{
-        res.render("adminpage",{Message:"Entered password is incorrect"});
-      }
-    }
-
-  })
-});
-
-
 
 app.get("/admin/requests/:typeofreq",(req,res)=>{
+  if(req.isAuthenticated()){
+      const request=req.params.typeofreq;
+    if(request==="fined"){
 
-  const request=req.params.typeofreq;
-  if(request==="fined"){
+      Fine.find({},(err,fines)=>{
+        if(err){
+          console.log(err);
+        }
+        else if(fines.length===0){
+          res.render("requests",{Value:0,Requests:fines,Message:"No records"});
+        }
+        else{
+          res.render("requests",{Value:0,Message:"",Requests:fines});
+        }
 
-    Fine.find({},(err,fines)=>{
-      if(err){
-        console.log(err);
-      }
-      else if(fines.length===0){
-        res.render("requests",{Value:0,Requests:fines,Message:"No records"});
-      }
-      else{
-        res.render("requests",{Value:0,Message:"",Requests:fines});
-      }
+      })
+    }
+    else{
+      
+      Open.find({},(err,opened)=>{
+        if(err){
 
-    })
+        }
+        else if(opened.length===0){
+          res.render("requests",{Value:1,Requests:opened,Message:"No records"});
+        }
+        else{
+          res.render("requests",{Value:1,Message:"",Requests:opened});
+        }
+
+      })
+
+    }
+
   }
   else{
-    
-    Open.find({},(err,opened)=>{
-      if(err){
-
-      }
-      else if(opened.length===0){
-        res.render("requests",{Value:1,Requests:opened,Message:"No records"});
-      }
-      else{
-        res.render("requests",{Value:1,Message:"",Requests:opened});
-      }
-
-    })
-
+    res.redirect("/login");
   }
+  
 
   
   
