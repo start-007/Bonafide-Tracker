@@ -119,7 +119,11 @@ passport.deserializeUser(Admin.deserializeUser());
 
 ////////////////////////////////////////Login Routes////////////////////////////////////////////////
 app.get("/login",(req,res)=>{
-  res.render("adminpage");
+  res.render("adminpage",{Message:"Enter the Details"});
+});
+
+app.get("/loginerror",(req,res)=>{
+  res.render("adminpage",{Message:"The Username or Password is incorrect!"});
 });
 
 app.post("/login",(req,res)=>{
@@ -135,7 +139,7 @@ app.post("/login",(req,res)=>{
     }
     else{
       
-       passport.authenticate("local", {failureRedirect:'/login' })(req,res,()=>{
+       passport.authenticate("local", {failureRedirect:'/loginerror' })(req,res,()=>{
           console.log("in login");
           res.redirect("/");
        });
@@ -143,6 +147,37 @@ app.post("/login",(req,res)=>{
     }
   })
 });
+
+app.get("/changepassword",(req,res)=>{
+  if(req.isAuthenticated()) {
+    res.render("changepassword",{Message:"Enter the Details"});
+  }
+  else {
+    res.redirect("/login");
+  }
+
+})
+
+app.post('/changepassword', function (req, res) {
+  Admin.findByUsername(req.body.username, (err, admin) => {
+      if (err) {
+        res.render("changepassword",{Message: "Password or Username is incorrect!"});
+      } else if(!admin){
+        res.render("changepassword",{Message: "Password or Username is incorrect!"});
+      }
+      else{
+        admin.changePassword(req.body.oldpassword, 
+          req.body.newpassword, function (err) {
+              if (err) {
+                  res.render("changepassword",{Message: "Password or Username is incorrect!"});
+              } else {
+                  res.render("changepassword",{Message:'Successfully Changed Password'});
+              }
+          });
+      }
+  });
+});
+
 
 
 // app.post("/register",(req,res)=>{
@@ -196,7 +231,7 @@ app.post("/getdata",(req,res)=>{
       console.log(err);
     }
     else if(!stud){
-      res.send({message:"Student entry not saved",proceed:1});
+      res.send({message:"Student Entry is not saved",proceed:1});
     }
     else{
       Open.findOne({rollno:studrollno},(err,mystud)=>{
@@ -217,7 +252,7 @@ app.post("/getdata",(req,res)=>{
           } 
           console.log("in fresh req");
           res.send({
-            message:"Verified the details proceeding to the form",
+            message:"Verified the Details: Proceeding to the form",
             studentinformation:studentInfo,
             fine:0
           });
@@ -226,7 +261,7 @@ app.post("/getdata",(req,res)=>{
           var issued=false;
           mystud.purposes.forEach(purpose => {
             if(purpose.purposename===req.body.purpose && purpose.isissued===1 ){
-              msg="The request is already made.Since it is issued.The fine of Rs.999 must be paid";
+              msg="The Request is already made. Since it is issued. The fine of Rs.100 must be paid";
               issued=true;
             }
           });
@@ -239,7 +274,7 @@ app.post("/getdata",(req,res)=>{
           else{
             console.log("no match no fine");
             res.send({
-              message:"Verified the details proceeding to the form",
+              message:"Verified the Details: Proceeding to the form",
               studentinformation:{
                 name:stud.name,
                 rollno:req.body.rollno,
@@ -301,7 +336,7 @@ app.post("/save",(req,res)=>{
       });
     }
    
-    res.send({message:"successful"});
+    res.send({message:"Successful"});
      
   });
   
@@ -314,7 +349,7 @@ app.get("/loadedform/:rollno/:purpose",(req,res)=>{
       var dd = String(today.getDate()).padStart(2, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
       var yyyy = today.getFullYear();
-      today = mm + '/' + dd + '/' + yyyy;
+      today = dd + '/' + mm + '/' + yyyy;
       console.log("in form",req.params.rollno,req.params.purpose);
       Student.findOne({rollno:req.params.rollno},(err,stud)=>{
 
@@ -372,12 +407,12 @@ app.post("/fine",(req,res)=>{
         else console.log("Student saved ");   
       });
       console.log("succesfully saved in fine");
-      msg="Successfully saved & make sure you pay the fine";
+      msg="Successfully saved & Make sure you pay the fine";
       fine=1;
       res.send({message:msg,fine:fine,proceed:1});
     }
     else{
-      msg="There is another request to paid.So you can't make a new one util it is paid";
+      msg="There is another request to paid. So you can't make a new one until it is paid";
       fine=1;
       res.send({message:msg,fine:fine,proceed:1});
     }
