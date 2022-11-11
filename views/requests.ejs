@@ -15,7 +15,10 @@
       <button class="tablinks" id="closedreqtab" type="submit" value="Closed">Closed Requests</button>
     </form>
     <form action="/admin/requests/fined" method="get">
-      <button class="tablinks" id="finedreqtab" type="submit" value="Closed">Fined Requests</button>
+      <button class="tablinks" id="finedreqtab" type="submit" value="Fined">Fined Requests</button>
+    </form>
+    <form action="/" method="get">
+      <button class="tablinks" id="hometab" type="submit" value="Home">GO TO HOME</button>
     </form>
   </div>
   <h1><%= Value?"Closed Requests":"Fined Requests"%></h1>

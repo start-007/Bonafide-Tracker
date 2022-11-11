@@ -56,7 +56,7 @@
 }
 .tab button{
   border-radius: 6px;
-  width: 50%;
+  width: 33%;
   background-color: inherit;
   float: left;
   border: none;
@@ -76,4 +76,13 @@
 @keyframes fadeEffect {
   from {opacity: 0;}
   to {opacity: 1;}
+}
+#closedreqtab{
+  background-color: rgb(214, 109, 109);
+}
+#finedreqtab{
+  background-color: rgb(210, 210, 68);
+}
+#hometab{
+  background-color: rgb(127, 218, 127);
 }

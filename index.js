@@ -178,7 +178,9 @@ app.post('/changepassword', function (req, res) {
   });
 });
 
-
+// app.get("/register",(req,res)=>{
+//   res.render("adminpage",{Message:"Enter "})
+// })
 
 // app.post("/register",(req,res)=>{
 //   console.log(req.body.username,req.body.password);
