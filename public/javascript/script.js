@@ -145,7 +145,7 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
             else{
                 let popup=document.getElementById("popup");
                 popup.classList.remove("open-popup");
-                window.open("/loadedform/"+srollno+"/"+spurpose,"_self");
+                window.open("/loadedform/"+srollno+"/"+spurpose+"/ORIGINAL","_self");
             }
             
            

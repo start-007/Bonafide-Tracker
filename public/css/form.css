@@ -4,7 +4,7 @@
   margin-bottom: 10%;  
   padding: 10px;  
   outline-offset: 0.5em;
-  background-color:#FEF8DD;
+  font-weight: 400;
 }
 .top-content {
   display: inline-block;
@@ -44,7 +44,7 @@
   font-size: 20px;
   font-weight: 500px;
   letter-spacing: 1px;
-  
+  margin: 0;
 }
 .bonafide-title {
   font-size: 25px;
@@ -79,6 +79,7 @@
   font-family: "Roboto";
   font-style: italic;
   word-spacing: 1px;
+  
 }
 .start-details {
   padding-left: 35px;
@@ -104,3 +105,4 @@
 .btm-clg-name {
   text-align:center;
 }
+

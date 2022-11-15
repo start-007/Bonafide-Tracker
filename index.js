@@ -52,17 +52,17 @@ app.use(cors());
 
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
 
-//mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
-const URI=process.env.ATLAS_URI
-const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  console.log(err);
-});
+mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
+// const URI=process.env.ATLAS_URI
+// const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   console.log(err);
+// });
 
-mongoose.connect(URI,(err)=>{
-  console.log(err);
-});
+// mongoose.connect(URI,(err)=>{
+//   console.log(err);
+// });
 
 const openedSchema=new mongoose.Schema({
   rollno:"String",
@@ -344,7 +344,7 @@ app.post("/save",(req,res)=>{
   
 });
 
-app.get("/loadedform/:rollno/:purpose",(req,res)=>{
+app.get("/loadedform/:rollno/:purpose/:type",(req,res)=>{
   if(req.isAuthenticated()){
 
       var today = new Date();
@@ -361,6 +361,7 @@ app.get("/loadedform/:rollno/:purpose",(req,res)=>{
         else{
           console.log(stud.department);
           res.render("form",{
+            Type:req.params.type,
             Rollno:req.params.rollno,
             Date:today,
             Year:stud.year,
@@ -512,7 +513,7 @@ app.post("/admin/request/fine/paid",(req,res)=>{
               console.log("deleted");
             }
           })
-          res.redirect("/loadedform/"+myrollno+"/"+mypurpose);
+          res.redirect("/loadedform/"+myrollno+"/"+mypurpose+'/'+'ORIGINAL');
         }
 
       })

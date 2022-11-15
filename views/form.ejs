@@ -18,8 +18,8 @@
     <div class="form-container">
         <div class="top-content">
             <span class="serial-num">S.NO</span>
-            <img class="logo" src="/assets/jntuhlogo.png" alt="jntuh-logo"/>
-            <span class="original">ORIGINAL</span>
+            <img class="logo" src="/assets/logo.jpeg" alt="jntuh-logo"/>
+            <span class="original"><%= Type %></span>
         </div>
         <div class="clg-heading">
             <h1 class="clg-title">JNTUH UNIVERSITY
@@ -33,8 +33,8 @@
             <span class="date">Date : <%= Date %></span>
         </div>
         <div>
-        <p class="details-filling">
-            <span class="start-details">This is to certify that</span> <span class="filled-values">Mr./Ms <%=Name%></span>
+        <p class="details-filling" style="text-align: left;">
+            <span class="start-details"><span> </span><span> </span> This is to certify that</span> <span class="filled-values">Mr./Ms <%=Name%></span>
             Son/Daughter of <span class="filled-values"><%= Sonordaughterof %></span> 
              Studying in B.Tech <span class="filled-values"><%= Year %>th Year</span>
             <%= Department %> Branch with <span class="filled-values">Roll No <%= Rollno %></span> is 
