@@ -106,3 +106,10 @@
   text-align:center;
 }
 
+.reason{
+  margin-left: 120px;
+}
+
+.content{
+  text-align: justify;
+}

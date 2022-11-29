@@ -52,17 +52,17 @@ app.use(cors());
 
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
 
-mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
-// const URI=process.env.ATLAS_URI
-// const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   console.log(err);
-// });
+// mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
+const URI=process.env.ATLAS_URI
+const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  console.log(err);
+});
 
-// mongoose.connect(URI,(err)=>{
-//   console.log(err);
-// });
+mongoose.connect(URI,(err)=>{
+  console.log(err);
+});
 
 const openedSchema=new mongoose.Schema({
   rollno:"String",
@@ -362,13 +362,13 @@ app.get("/loadedform/:rollno/:purpose/:type",(req,res)=>{
           console.log(stud.department);
           res.render("form",{
             Type:req.params.type,
-            Rollno:req.params.rollno,
+            Rollno:req.params.rollno.toUpperCase(),
             Date:today,
             Year:stud.year,
-            Name:stud.name,
-            Sonordaughterof:stud.sonordaughterof,
+            Name:stud.name.toUpperCase(),
+            Sonordaughterof:stud.sonordaughterof.toUpperCase(),
             Department:stud.department,
-            Purpose:req.params.purpose
+            Purpose:req.params.purpose.toUpperCase()
           })
         }
 
