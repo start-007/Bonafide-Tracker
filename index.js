@@ -13,8 +13,6 @@ const passportLocalMongoose=require("passport-local-mongoose");
 const findOrCreate=require("mongoose-findorcreate");
 const path=require("path");
 const cors=require("cors");
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
 const { prependListener } = require('process');
 const { rmSync } = require('fs');
 const LocalStrategy = require('passport-local').Strategy;
@@ -51,18 +49,23 @@ app.use(cors());
 
 
 ////////////////////////////////////////MongoDB/////////////////////////////////////////////////////
-
-// mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
+//mongoose.connect("mongodb://localhost:27017/bonafidetrackerDB",{useNewUrlParser:true});
 const URI=process.env.ATLAS_URI
-const client = new MongoClient(URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  console.log(err);
-});
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
-mongoose.connect(URI,(err)=>{
-  console.log(err);
-});
+// const client = new MongoClient(URI);
+// client.connect(err => {
+//     const collection = client.db("bonafidetracker").collection("devices");
+//     // perform actions on the collection object
+//     console.log("Connection Error",err);
+//     //client.close();
+// })
+mongoose.connect(URI,()=>{
+  console.log("Connected");
+})
+
+
+
 
 const openedSchema=new mongoose.Schema({
   rollno:"String",
@@ -95,7 +98,8 @@ const studentSchema=new mongoose.Schema({
   name:"String",
   phonenumber:"String",
   department:"String",
-  year:"Number"
+  batch:"String",
+  year:"String"
 });
 
 const adminSchema=new mongoose.Schema({
@@ -223,7 +227,7 @@ app.post("/getdata",(req,res)=>{
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
-  today = mm + '/' + dd + '/' + yyyy;
+  today = dd+ '/' + mm + '/' + yyyy;
   console.log(req.body);
   const studrollno=req.body.rollno;
 
@@ -250,7 +254,8 @@ app.post("/getdata",(req,res)=>{
             purpose:req.body.purpose,
             date:today,
             department:stud.department,
-            year:stud.year
+            year:stud.year,
+            batch:stud.batch
           } 
           console.log("in fresh req");
           res.send({
@@ -284,7 +289,8 @@ app.post("/getdata",(req,res)=>{
                 purpose:req.body.purpose,
                 date:today,
                 department:stud.department,
-                year:stud.year
+                year:stud.year,
+                batch:stud.batch
               } ,
               fine:0,
             });
@@ -476,7 +482,7 @@ app.post("/admin/request/fine/paid",(req,res)=>{
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
-  today = mm + '/' + dd + '/' + yyyy;
+  today = dd + '/' + mm + '/' + yyyy;
   const value=req.body.submitbutton;
   const myrollno=value.substring(0, value.indexOf(' ')); // "72"
   const mypurpose=value.substring(value.indexOf(' ') + 1);
