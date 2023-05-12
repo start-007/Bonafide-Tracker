@@ -65,10 +65,34 @@ app.post("/login",(req,res)=>{
 app.get("/changepassword",(req,res)=>{
 
   
- 
+  res.render("changepassword",{Message:"Enter details to modify"})
 })
 
 app.post('/changepassword', function (req, res) {
+
+  var data=[]
+  fs.createReadStream("public/assets/cred.csv")
+  .pipe(parse({ delimiter: ',' }))
+  .on('data', (r) => {
+    data.push(r)
+  })
+  .on('end', () => {
+    var flag=true
+    data.forEach((r)=>{
+      if(r[0]==req.body.username && r[1]==req.body.oldpassword){
+        flag=false
+        fs.writeFile("public/assets/cred.csv",req.body.username+","+ req.body.newpassword, "utf-8", (err) => {
+          if (err) console.log(err);
+          else console.log("Data saved");
+        });
+        res.redirect("/home")
+      }     
+
+    })
+    if(flag){
+      res.render("changepassword",{Message:"The Username or Password is incorrect!"});
+    }
+  })
  
 });
 
