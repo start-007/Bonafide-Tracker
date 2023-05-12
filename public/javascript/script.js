@@ -19,9 +19,7 @@ document.getElementById("submit").addEventListener("click",(e)=>{
         spurpose=document.getElementById("Other").value;
     }
     console.log(srollno,spurpose);
-    if(srollno.length !=10  || !srollno.includes("SS") || !srollno.includes("A0")){
-        myerror=true;
-    }
+
     if(myerror){
         let i = document.getElementById("prompt"); 
         i.innerHTML="Enter correct roll number";
@@ -65,7 +63,7 @@ document.getElementById("submit").addEventListener("click",(e)=>{
             else{
                 data.studentinformation=(JSON.parse(JSON.stringify(data.studentinformation)));
                 console.log(data.studentinformation);
-                document.getElementById("proceed").action="/save";
+                document.getElementById("proceed").action="/getform";
                 var listView=document.getElementById("studentid");
                 for (var key of Object.keys(data.studentinformation)) {
                     console.log(key + " -> " + data.studentinformation[key])
@@ -97,11 +95,7 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
     }
     console.log(srollno,spurpose);
     let myerror = false;
-    if(srollno.length !=10  || !srollno.includes("SS") || !srollno.includes("A0")){
-        myerror=true;
-
-
-    }
+  
     if(myerror){
         let i = document.getElementById("prompt"); 
         i.innerHTML="Enter correct roll number";
@@ -109,48 +103,9 @@ document.getElementById("submitbtn").addEventListener("click",(e)=>{
     }
     else{
         const route=document.getElementById("proceed").action;
-        fetch(route, {
-   
-            method: "POST",
-            
-            headers: {
-                
-                'Content-Type': 'application/json',
-                
-            },
-            body: JSON.stringify({
-                rollno:srollno,     
-                purpose:spurpose,
-                
-            })
-        }).then(function(response) {
-            console.log(response);
-            return response.json();
-        }).then(function(data){
-            let i = document.getElementById("prompt"); 
-            i.innerHTML="Fill the Details";
-            i.classList.remove("error-msg");
-            console.log(data);
-            if(data.proceed){
-                document.getElementById("submitbtn").disabled=true;
-                document.getElementById("submitbtn").style.visibility = "hidden";
-            }
-            else{
-                document.getElementById("submitbtn").disabled=false;
-                document.getElementById("submitbtn").style.visibility = "visible";
-            }
-            if(data.fine){
-                document.getElementById("error").innerHTML=data.message;
-            }
-            else{
-                let popup=document.getElementById("popup");
-                popup.classList.remove("open-popup");
-                window.open("/loadedform/"+srollno+"/"+spurpose+"/ORIGINAL","_self");
-            }
-            
-           
-        })
-        .catch(console.log(console.error));
+        
+        window.open("/getform/"+srollno+"/"+spurpose+"/ORIGINAL","_self");
+        
 
         
     }    
