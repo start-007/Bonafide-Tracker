@@ -39,10 +39,32 @@ app.get("/loginerror",(req,res)=>{
 });
 
 app.post("/login",(req,res)=>{
-  
+
+  var data=[]
+  fs.createReadStream("public/assets/cred.csv")
+  .pipe(parse({ delimiter: ',' }))
+  .on('data', (r) => {
+    data.push(r)
+  })
+  .on('end', () => {
+    var flag=true
+    data.forEach((r)=>{
+      if(r[0]==req.body.username && r[1]==req.body.password){
+        flag=false
+        res.redirect("/home")
+      }     
+
+    })
+    if(flag){
+      res.render("adminpage",{Message:"The Username or Password is incorrect!"});
+    }
+  })
+
 });
 
 app.get("/changepassword",(req,res)=>{
+
+  
  
 })
 
@@ -50,13 +72,17 @@ app.post('/changepassword', function (req, res) {
  
 });
 
+app.get("/home",(req,res)=>{
+  res.render("home")
+})
+
 
 
 
 ///////////////////////////////////////////////Routes/////////////////////////////////////////////
 
 app.get("/",(req,res)=>{
-  res.render("home");
+  res.render("adminpage",{Message:"Enter Details"});
   
 });
 
