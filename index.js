@@ -108,29 +108,40 @@ app.post("/getdata",(req,res)=>{
   fs.createReadStream("test.csv")
   .pipe(parse({ delimiter: ',' }))
   .on('data', (r) => {
-    if(r[0]==studrollno){
-      const studentInfo={
-        rollno:studrollno,
-        name:r[1],
-        sonordaughterof:r[3],
-        // phonenumber:r[4],
-        purpose:req.body.purpose,
-        date:today,
-        department:r[2],
-        year:r[4],
-        batch:r[5]
-        
-      } 
-
-      res.send({
-        message:"Verified the Details: Proceeding to the form",
-        studentinformation:studentInfo,
-        fine:0
-      });
-    }      
+    data.push(r)
   })
   .on('end', () => {
+    var flag=true
+    data.forEach((r)=>{
+      if(r[0]==studrollno){
+        flag=false
+        const studentInfo={
+          rollno:studrollno,
+          name:r[1],
+          sonordaughterof:r[3],
+          // phonenumber:r[4],
+          purpose:req.body.purpose,
+          date:today,
+          department:r[2],
+          year:r[4],
+          batch:r[5]
+          
+        } 
+        res.send({
+          message:"Verified the Details: Proceeding to the form",
+          studentinformation:studentInfo,
+          fine:0
+        });
+      }
+       
+    })
     
+    if(flag){
+      res.send({
+        message:"Student Entry not saved",
+        proceed:1
+      })
+    }
   })
  
 })

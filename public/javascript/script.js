@@ -56,24 +56,20 @@ document.getElementById("submit").addEventListener("click",(e)=>{
                 document.getElementById("submitbtn").disabled=false;
                 document.getElementById("submitbtn").style.visibility = "visible";
             }
-            if(data.fine===1){
-                document.getElementById("proceed").action="/fine"
-                console.log("set to zero");
+            
+            data.studentinformation=(JSON.parse(JSON.stringify(data.studentinformation)));
+            console.log(data.studentinformation);
+            document.getElementById("proceed").action="/getform";
+            var listView=document.getElementById("studentid");
+            for (var key of Object.keys(data.studentinformation)) {
+                console.log(key + " -> " + data.studentinformation[key])
+                var listViewItem=document.createElement('li');
+                listViewItem.appendChild(document.createTextNode(key+" : "+data.studentinformation[key]));
+                
+                listView.appendChild(listViewItem);
             }
-            else{
-                data.studentinformation=(JSON.parse(JSON.stringify(data.studentinformation)));
-                console.log(data.studentinformation);
-                document.getElementById("proceed").action="/getform";
-                var listView=document.getElementById("studentid");
-                for (var key of Object.keys(data.studentinformation)) {
-                    console.log(key + " -> " + data.studentinformation[key])
-                    var listViewItem=document.createElement('li');
-                    listViewItem.appendChild(document.createTextNode(key+" : "+data.studentinformation[key]));
-                   
-                    listView.appendChild(listViewItem);
-                }
-                console.log("ok");
-            }
+            console.log("ok");
+        
         
             
         })
